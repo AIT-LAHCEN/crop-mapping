@@ -28,3 +28,7 @@ propriétées des images satellites la resolution la bande spectrale (toutes les
 les references : auteur + lien + année (utilisé bibtex pour referencée).
 
 les domaines au maroc.
+
+ajouter les logiciels + les infos sur ces logiciels
+
+

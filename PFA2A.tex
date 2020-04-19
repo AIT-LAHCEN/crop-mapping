@@ -8,10 +8,11 @@
 \usepackage[export]{adjustbox}
 \usepackage{setspace}
 \usepackage{hyperref}
+\usepackage{enumitem}
 
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=black,
     filecolor=magenta,      
     urlcolor=cyan,
 }
@@ -20,6 +21,12 @@
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\newlist{mylist}{itemize}{3}
+\setlist[mylist,1]{
+    label=\textbullet,
+    wide=0pt,
+    itemindent=\dimexpr\parindent+\labelwidth+\labelsep\relax}
 
 \begin{document}
 \begin{titlepage}
@@ -47,10 +54,10 @@
     \begin{minipage}{0.4\textwidth}
       \begin{flushleft} \large
         \emph{Réalisé par:}\\
-        AIT LAHCEN \textsc{Ahmed}\\
-	CHICHI \textsc{Hamza}\\
+            AIT LAHCEN \textsc{Ahmed}\\
+	        CHICHI \textsc{Hamza}\\
        \emph{Filière, Groupe}\\
-	Génie logiciel, GL 1\\
+	        Génie logiciel, GL 1\\
       \end{flushleft}
     \end{minipage}
     \begin{minipage}{0.4\textwidth}
@@ -71,115 +78,181 @@
 \newpage
 \strut 
 
+
 \listoffigures
 \tableofcontents
+\chapter*{Introduction générale}
+\addcontentsline{toc}{chapter}{Introduction générale}
+
+Le domaine de l’agriculture constitue une grande partie économique de plusieurs pays dans le monde, ce qui rend la recherche scientifique envers ce secteur d’activité une importante source de revenue financier, mais ceci n’est possible que si la disponibilité des ressources de l’environnement biophysique et humain est importante.
+\par
+En effet, l’exploitation des images satellites sur les terrains agricoles permet de gérer plus efficacement les récoltes et de prévoir les risques pouvant menacer la production comme par exemple les risques d’infestations d’insectes, les intempéries, la sécheresse ... Et ceci grâce aux différents caractéristiques contenues dans une image satellitaire (longueurs d’ondes, fréquences, domaines spéctraux..)
+\par
+Si l’agriculture représente un secteur économique très important pour un pays, comme le Maroc par exemple, vaut mieux investir dans la recherche de nouvelles technologies dans ce domaine afin d’exploiter au maximum ses ressources, sans oublier que le développement de l’agriculture moderne ne cesse d’accroitre et que certains pays se sont mis à l’introduction dans les pratiques agricoles de nouveaux outils numériques d’aide à la décision basés sur le monde de la big data et des nouvelles technologies (drones, robots…).
+\par
+Parmi les technologies modernes qui facilitent la tâche pour les acteurs de la production et augmente la consommation	 agricole, on retrouve le \textbf{Crop Mapping}, qui est le sujet de notre projet de fin d’année.  Cette dernière est une techniques qui utilise des données fournies par les image satellites pour les analysées et les traitées en utilisant plusieurs méthodes telles que le Deep Learning et le réseaux de neurones afin d’élaborer des stratégies pour les champs et les cultures pour le long terme.
+\par
+Ce rapport est constitué en deux parties. La première partie, intitulée contexte générale du projet, comporte ... chapitres, le premier présente les notions générales du sujets.
+
+
 \chapter{Présentation du sujet}
+Cette partie va présenter les différentes notions abordées dans le projet accompagnées de quelques exemples. 
 
 \section{Les parcelles}
 
 \subsection{Définition de parcelle}
-Une parcelle est généralement une superficie de terrain ayant une unité de propriété. Une parcelle peut être dans ce cas la propriété d'une personne privée ou publique, seule ou en groupe.
+Une parcelle est généralement une superficie de terrain ayant une unité de propriété, elle peut être dans ce cas la propriété privée ou publique d'une personne ou d'un groupe.\\
 Un ensemble de parcelles peut être désigné comme un « parcellaire ». 
+
 \begin{figure}[hp]
 \centering
-\includegraphics[scale=0.5]{parcelle2.jpg}
+\includegraphics[scale=0.4]{parcelle2.jpg}
 \caption{Une parcelle}
 \end{figure}
-Selon le référentiel foncier ou d'organisation spatiale utilisé, le terme de parcelle peut s'appliquer à différents domaine :\\
-•	en agriculture, elle désigne alors la division agricole (champ, pré, vignoble, verger, etc.) exploitée par la même personne ou le même groupe de personnes.\\
-•	en sylviculture, G. Sêe, sous-inspecteur des forêts définissait les parcelles en 18681 comme des « enceintes formées par des lignes de configuration, de fertilité ou de consistance » en préférant ce mot à l'ancien mot de « canton » qu'il considère même comme un néologisme quand on le réutilise (à cette époque).\\
-•	en urbanisme et dans les plans cadastraux, elles sont définies selon leurs propriétaires et leurs limites parcellaires, tant en milieu rural qu'urbain. Ainsi, une parcelle définit autant une unité de terrain agricole, qu'un terrain habité, ou encore une parcelle à l'abandon ou dévolue aux stationnements automobiles.  \hyperref[sec:refs]{1}
+
+\hyperref[sec:refs]{\textsuperscript{[1]}} 
+Le terme de parcelle peut s'appliquer à différents domaine :
+
+\begin{mylist}
+
+\item En agriculture, elle désigne la division agricole (champ, pré, vignoble, verger, etc.) exploitée par la même personne ou le même groupe de personnes.
+
+
+\item En urbanisme, elles sont définies selon leurs propriétaires et leurs limites, tant en milieu rural qu'urbain. Ainsi elle peut être un terrain habité, ou encore une parcelle à l'abandon ou bien une zone de stationnements automobiles. 
+
+\end{mylist}
+
+
+
 \subsection{La segmentation des parcelles}
-La fragmentation des parcelles a des intérêts agronomique et écologique, Une largeur moyenne des parcelles, inférieure à 150 mètres, permet une diffusion efficace des insectes auxiliaires des cultures depuis les bordures de champ.
-Les carabes, prédateurs des limaces, sont des auxiliaires de référence. Il est admis que depuis une bordure de champ, ils pénètrent au maximum jusqu’à 75 mètres à l’intérieur de la parcelle.
+
+La fragmentation spatiale des parcelles agricoles a un fort impact sur les flux d’eau dans les paysages cultivés, et pour surveiller les paysages à grandes échelles, il y a un fort besoin de délimitation automatique ou semi-automatique des parcelles agricoles. C’est pour cela que la contribution des images satellitaires à très haute résolution peut permettre la délimitation en utilisant de nombreuses méthodes de classification et des algorithmes qui traitent les caractéristiques de ces images.
+
 \begin{figure}[hp]
 \centering
 \includegraphics[scale=1]{seg.jpg}
 \caption{La fragmentation d'une parcelle}
 \end{figure}
-De manière générale, conserver des parcelles culturales de petite taille augmente l'hétérogénéité du paysage.
-Du point de vue agronomique, la propagation de maladies, ravageuses et parasites est contenue.
-Du point de vue écologique:\\
-•	le paysage est plus diversifié\\
-•	L’effet de lisière est augmenté \hyperref[sec:refs]{2}
-\subsection{Les type de culture sur une parcelle}
-En fonction de la productivité, différents systèmes de production agricole sont définis :\\
-• l’agriculture intensive ou productiviste qui est caractérisée par l’usage important d’intrants et cherche à maximiser la production par rapport aux facteurs de production, qu’il s’agisse de la main d’œuvre, du sol ou des autres moyens de production (matériel, intrants divers).\\
-• l’agriculture extensive qui ne maximise pas la productivité du sol et ne fait pas appel à des intrants chimiques, à l’arrosage ou au drainage, mais plutôt aux ressources naturellement présentes sur place. Pratiquée généralement sur de vastes étendues, elle se caractérise par des rendements à l’hectare relativement faibles.\\
-• l’agriculture vivrière ou de subsistance est une forme d’agriculture qui consiste à cultiver des produits essentiellement destinés à nourrir la population localement. \hyperref[sec:refs]{3} 
+
+Le résultat de ces études permet une bonne localisation des limites parcellaires et met en évidence l’intérêt d’un modèle global si une base de données d’images de limites parcellaires existe. 
+
+\newpage
+
+\subsection{L'agriculture au Maroc}
+
+L'agriculture est un secteur économique très important du Maroc. Il génère environ 14 \% du produit intérieur brut (PIB), mais avec des variations importantes (11 à 18 \%) selon les années en fonction des conditions climatiques. Ses performances conditionnent même celles de l’économie tout entière : le taux de croissance du pays est fortement corrélé à celui de la production agricole. L’agriculture demeure par ailleurs le premier pourvoyeur d’emplois du pays, loin devant les autres secteurs économiques, 40 \% de la population active vivant de ce secteur.\hyperref[sec:refs]{\textsuperscript{[11]}}
+
+
 \begin{figure}[hp]
 \centering
 \includegraphics[scale=0.9]{etat.jpg}
 \caption{L'état des cultures au maroc}
-\end{figure}\\
-Les modes de culture les mieux connus sont l’agriculture conventionnelle et l’agriculture biologique. Face à la volonté de préserver l’environnement et l’évolution des pratiques, des types d’agriculture alternative se sont mises en place : l’agriculture durable, l’agriculture raisonnée, l’agriculture intégrée, l’agriculture multifonctionnelle, l’agriculture de précision. Dernièrement, un mode de culture qui se pratique en dehors du sol est apparu : l’agriculture hors-sol ou hydroponie.
-\hyperref[sec:refs]{4}
+\end{figure}
+
+
+Les principales productions végétales du pays sont constituées par les céréales (blé, orge), les agrumes (oranges, clémentines), les olives, les rosacées fruitières (amandes, pommes, abricots...), les betteraves à sucre, les légumineuses alimentaires, les cultures maraichères dont les pommes de terre et les tomates, fer de lance des exportations agricoles marocaines. L'élevage (ovin, caprin, bovin, camelin, avicole) constitue aussi une composante importante du secteur agricole en contribuant à hauteur de 30 \% à sa valeur ajoutée.
+
 \section{Les images satellites}
-\subsection{La définition d'une image satellite}
-Une image satellite, ou image satellitaire, est une prise de vue transmise d'un satellite artificiel en orbite. Elles permettent d'obtenir différentes informations comme la surveillance des pays ennemis pour les militaires (fonction première de la création d'un satellite d'observation), prévisions météorologiques (par exemple les satellites Météosat), ou tout simplement pour les recherches sur l'Univers. Certains satellites sont capables d'une précision telle que cela peut devenir un problème, notamment en termes de vie privée ou de secret d'État. \hyperref[sec:refs]{5}
+Un satellite artificiel est un objet fabriqué par l'être humain, envoyé dans l'espace à l'aide d'un lanceur et gravitant autour d'une planète ou d'un satellite naturel comme la Lune.  
+Le premier satellite artificiel Spoutnik 1 est lancé par l’Union des républiques socialistes soviétiques en 1957.
+\subsection{Les sattelites en orbite autour de la terre}
+
+
+Selon l'association UCS (Union of Concerned Scientists), 2.063 satellites opérationnels étaient en orbite autour de la Terre au 1er avril 2019. Le plus ancien encore en opération est un satellite amateur américain, Amsat-Oscar 7 (AO-7), lancé le 15 novembre 1974. La cadence des lancements s'est brusquement accélérée ces dernières années, avec 378 satellites lancés en 2017 et 375 satellites en 2018. Attention : il ne s'agit pas du nombre de fusées, car les lancements multiples sont devenus la norme. Le 15 février 2017, l'Inde a ainsi battu un record avec 104 satellites en un seul tir.\hyperref[sec:refs]{\textsuperscript{[10]}}
+
 \begin{figure}[hp]
 \centering
-\includegraphics[scale=0.5]{img.jpg}
+\includegraphics[scale=0.6]{satellite.png}
+\caption{Statistiques de satellites}
+\end{figure}
+
+\subsection{Les satellites marocains}
+Mohammed VI est un système de 2 satellites de reconnaissance et d'observation de la Terre (A et B) du type Pléiades, conçu par Thales Alenia Space (conception de la charge) et Airbus (conception de la plate-forme satellitaire) pour le compte du Centre royal de télédétection spatiale (Maroc).
+\par
+Le satellite Mohammed VI A est lancé le 8 novembre 2017 par un lanceur Vega depuis le Centre spatial de Kourou satellite espion, il est utilisé pour surveiller le Front Polisario dans la « zone tampon ».
+Le lancement du deuxième satellite (Mohammed VI B) est effectué avec succès le 21 novembre 2018, à usage civil, est utilisé pour la cartographie et le cadastre, l’identification des zones sinistrées...
+
+
+
+\subsection{La définition d'une image satellite}
+
+Une image satellite, ou image satellitaire, est une prise de vue transmise d'un satellite artificiel en orbite. Elles permettent d'obtenir différentes informations comme la surveillance des pays ennemis pour les militaires (fonction première de la création d'un satellite d'observation), prévisions météorologiques (par exemple les satellites Météosat), ou tout simplement pour les recherches sur l'Univers. Certains satellites sont capables d'une précision telle que cela peut devenir un problème, notamment en termes de vie privée ou de secret d'État. \hyperref[sec:refs]{\textsuperscript{[5]}}
+
+
+\begin{figure}[hp]
+\centering
+\includegraphics[scale=0.3]{img.jpg}
 \caption{Image d'une parcelle par satellite}
 \end{figure}
 
+
+
 \subsection{Les satellites au service de l'agriculture}
-Dans le domaine de l'agriculture, les satellites d'observation de la Terre sont utilisés pour une très grande variété d’applications et de services, comme la surveillance des cultures, le contrôle des surfaces et de l'occupation des sols, l'irrigation et la des gestion des cultures en engrais et produits phytosanitaires. Ils sont également utilisés pour suivre la production d'herbe tout au long de la saison culturale.  \hyperref[sec:refs]{6}
+
+
+Dans le domaine de l'agriculture, les satellites d'observation de la Terre sont utilisés pour une très grande variété d’applications et de services, comme la surveillance des cultures, le contrôle des surfaces et de l'occupation des sols, l'irrigation et la des gestion des cultures en engrais et produits phytosanitaires. Ils sont également utilisés pour suivre la production d'herbe tout au long de la saison culturale.  \hyperref[sec:refs]{\textsuperscript{[6]}}
+\newpage
+
 \begin{figure}[hp]
 \centering
 \includegraphics[scale=0.65]{prev.jpg}
 \caption{Prévision de la production agricole}
-\end{figure}\\
-L'intérêt d'utiliser des satellites s'explique par leur capacité à  fournir des images multi spectrales de très bonne résolution. Ces images reçues dans plusieurs longueurs d'onde permettent d'estimer des paramètres biophysiques à partir des pixels de l'image que l'on mesure dans plusieurs couleurs de façon à caractériser l'état de la plante.\\
+\end{figure}
+
+L'intérêt d'utiliser des satellites s'explique par leur capacité à  fournir des images multi spectrales de très bonne résolution. Ces images reçues dans plusieurs longueurs d'onde permettent d'estimer des paramètres biophysiques à partir des pixels de l'image que l'on mesure dans plusieurs couleurs de façon à caractériser l'état de la plante.
+\par
 Ce type d'image a supplanté les systèmes antérieurs en démontrant qu'il pouvait prendre en compte l'état réel des cultures et de la croissance de la végétation à l'intérieur des parcelles à différents stades de la pousse.
 
 \section{Crop Mapping}
 \subsection{Définition}
-C’est une technique en agriculture qui utilise des données GPS pour analyser des variables telles que le rendement des cultures et la teneur en eau dans un champ donné. Il a été développé dans les années 1990 et utilise une combinaison de technologie GPS et de capteurs physiques, tels que des compteurs de vitesse , pour suivre les rendements des cultures, la vitesse de l' élévateur à grains et combiner la vitesse.\\
+C’est une technique en agriculture qui utilise des données GPS pour analyser des variables telles que le rendement des cultures et la teneur en eau dans un champ donné. Il a été développé dans les années 1990 et utilise une combinaison de technologie GPS et de capteurs physiques, tels que des compteurs de vitesse , pour suivre les rendements des cultures, la vitesse de l'élévateur à grains et combiner la vitesse.
+\par
 Ces données produisent une carte des rendements qui peut être utilisée pour comparer la distribution des rendements dans le champ d'une année à l'autre. Cela permet aux agriculteurs de déterminer les zones du champ qui, par exemple, peuvent avoir besoin d'être plus fortement irriguées ou qui ne produisent aucune récolte. Il permet également aux agriculteurs de montrer les effets d'un changement dans les techniques de gestion des champs, d'élaborer des stratégies nutritionnelles pour leurs champs et d'enregistrer le rendement des cultures à utiliser pour obtenir des prêts ou des locataires.
 
 \subsection{Les méthodes de Crop Mapping}
+
 Il y a plusieurs méthodes de Crop Mapping dont:
 
 \subsubsection{La télédétection (remote sensing from space)}
 La télédétection offre une méthode sûre et efficace de cueillette d'information dans le but de cartographier le type et de calculer la superficie des cultures.
-Les micro-ondes sont sensibles à l'alignement, la structure et la quantité d'eau présente dans les plantes et dans le sol, et peuvent fournir de l'information complémentaire aux données optiques. \\
+Les micro-ondes sont sensibles à l'alignement, la structure et la quantité d'eau présente dans les plantes et dans le sol, et peuvent fournir de l'information complémentaire aux données optiques. 
+\par
 Les résultats de l'interprétation des données de télédétection peuvent être intégrés dans un système d'information géographique (SIG) et dans un système de gestion des cultures, et peuvent aussi être combinés à des données auxiliaires pour fournir de l'information sur les droits de propriété, les pratiques de gestion, etc. \hyperref[sec:refs]{7}
 
 \begin{figure}[hp]
 \centering
-\includegraphics[scale=0.2]{tele.jpg}
+\includegraphics[scale=0.15]{tele.jpg}
 \caption{La télédétection par satellite}
 \end{figure}
 
-\newpage
 \subsubsection{MODIS (Moderate Resolution Imaging Spectroradiometer)}
-MODIS est un instrument clé à bord des satellites Terra et Aqua qui sont en orbite de la terre et qui visualise la totalité de sa surface tous les 1 à 2 jours, acquérant des données dans 36 bandes spectrales.\\
+MODIS est un instrument clé à bord des satellites Terra et Aqua qui sont en orbite de la terre et qui visualise la totalité de sa surface tous les 1 à 2 jours, acquérant des données dans 36 bandes spectrales.
 
-\begin{figure}[hp]
+\par
+MODIS présente deux indices de végétation (NDVI et EVI) qui fournissent des comparaisons spatiales et temporelles des différentes surfaces à couvert végétale et foliaire, le NDVI (normalized difference vegetation index) assure la continuité de la série temporelle pour des applications historiques et climatiques tandis que le EVI minimise les variations de la canopée et améliore la sensibilité aux conditions de végétation dense.
+Ces deux indices caractérisent plus efficacement la gamme mondiale des états et des processus de végétation. \hyperref[sec:refs]{8}
+
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.4]{modis.png}
 \caption{Une comparaison Input/Output par la méthode MODIS}
 \end{figure}
 
-MODIS présente deux indices de végétation (NDVI et EVI) qui fournissent des comparaisons spatiales et temporelles des différentes surfaces à couvert végétale et foliaire, le NDVI (normalized difference vegetation index) assure la continuité de la série temporelle pour des applications historiques et climatiques tandis que le EVI minimise les variations de la canopée et améliore la sensibilité aux conditions de végétation dense.
-Ces deux indices caractérisent plus efficacement la gamme mondiale des états et des processus de végétation. \hyperref[sec:refs]{8}
-
 
 \subsubsection{Deep Learning Classification}
 Le Deep Learning (DL) est une technique de pointe puissante pour le traitement d'image, y compris les images de télédétection (remote sensing images). 
 Pour cibler la couverture des sols et la classification des types de cultures à partir d'images satellites multi-temporelles et multi-sources, une architecture DL à plusieurs niveaux solide doit être disposer. 
-Le pilier de cette architecture est un réseau neuronal qui est utilisé pour la segmentation des images optiques et la restauration des données manquantes en raison des nuages et des ombres. \hyperref[sec:refs]{9} \\
+Le pilier de cette architecture est un réseau neuronal qui est utilisé pour la segmentation des images optiques et la restauration des données manquantes en raison des nuages et des ombres. \hyperref[sec:refs]{9} 
 
-L’avantage de cette méthode est d’étudier des modèles de deep learning/machine learning pour la « crop classification » qui fournissent une segmentation basée sur les pixels d'une zone d'inspection pendant une période donnée. Pour obtenir de meilleurs résultats, il est préférable d’utiliser des modèles existant et de sélectionner ceux les mieux adaptés à la situation. Et pour mieux de flexibilité, il faut ajuster les modèles pré-formés par transfert learning à de nouvelles données comme de nouveaux domaines avec de nouvelles particularités, cultures...\\
+L’avantage de cette méthode est d’étudier des modèles de deep learning/machine learning pour la « crop classification » qui fournissent une segmentation basée sur les pixels d'une zone d'inspection pendant une période donnée. Pour obtenir de meilleurs résultats, il est préférable d’utiliser des modèles existant et de sélectionner ceux les mieux adaptés à la situation. Et pour mieux de flexibilité, il faut ajuster les modèles pré-formés par transfert learning à de nouvelles données comme de nouveaux domaines avec de nouvelles particularités, cultures...
 
-\begin{figure}[hp]
+Un autre avantage est le potentiel d'améliorer considérablement la précision d'un modèle avec plus de données réelles recueillies au sol de la région étudié en utilisant des données spécifiques. Cependant, il est possible d'obtenir de meilleurs résultats avec l'ensemble de données de formation (training data set) plus spécifiques.
+
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.5]{deep.png}
 \caption{Le processus de Deep Learning}
 \end{figure}
-
-Un autre avantage est le potentiel d'améliorer considérablement la précision d'un modèle avec plus de données réelles recueillies au sol de la région étudié en utilisant des données spécifiques. Cependant, il est possible d'obtenir de meilleurs résultats avec l'ensemble de données de formation (training data set) plus spécifiques.
 
 \chapter*{Bibiographie et Webographie}
 \label{sec:refs}
@@ -203,6 +276,7 @@ Un autre avantage est le potentiel d'améliorer considérablement la précision 
 
 \item{[6]} Les satellites au service de l'agriculture :
 \\ https://www.futura-sciences.com/sciences/actualites/astronautique-satellites-service-agriculture-29034/
+
 
 \item{[7]} Generating Crop Classification Maps Using AI :
 \\ https://www.planetwatchers.com/generating-crop-classification-maps-using-ai/
