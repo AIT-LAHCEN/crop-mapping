@@ -186,15 +186,74 @@ Une image satellite, ou image satellitaire, est une prise de vue transmise d'un 
 \caption{Image d'une parcelle par satellite}
 \end{figure}
 
+\subsection{Les caractéristiques des images satellites}
+La principale différence entre une photographie et une image satellite est que la photographie est au format analogique et qu’elle est généralement imprimée sur papier avant d’être interprétée. L’image satellite est au format numérique et elle est généralement analysée et interprétée à l’aide d’un ordinateur.Le format numérique enregistre chaque bloc d’informations de manière discrète.
 
+
+\par
+\underline{Le pixel :}
+\par
+
+Avec un zoom avant suffisant sur une image satellite, on peut voir de nombreux carrés de couleurs différentes qui sont les pixels.
+Ces pixels représente la plus petite unité figurant sur une image. Réunis, ils fournissent toute l’information qui constitue l’image dans son intégralité.
+
+\par
+\underline{La résolution spatiale :}
+\par 
+
+La résolution spatiale d’une image est la plus petite distance entre deux objets adjacents que le capteur puisse identifier.
+Plus les pixels seront nombreux dans l’image plus la résolution spatiale sera élevée.
+\par
+Selon les caractéristiques du capteur, l’altitude du satellite ,son orbite autour de la Terre, les images satellites seront composées de pixels couvrant une surface au sol plus ou moins grande du sol. On classera ainsi les images enregistrées en images : Basse , moyenne, haute résolution ou très haute résolution.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.25]{resolution_image.jpg}
+\caption{Image satellite en très haute résolution}
+\end{figure}
+
+\par
+\underline{Valeur des pixels :}
+\par 
+
+Chaque pixel d’une image a une valeur. Cette valeur correspond à l’intensité du rayonnement réfléchi par l’objet observé dans la gamme de longueur d’ondes auxquelles le capteur est sensible.
+
+La valeur du pixel varie de 0 (= noir) à 255 (= blanc). Donc, il y a 256 possibilités, ce qui correspond à 1 octet. Cela représente la quantité de rayonnement détectée par un capteur, allant du minimum au maximum. Le nombre de niveaux donne une indication quant à la précision de la mesure : plus il y a de niveaux (donc plus il y a de bits), plus détaillée sera la mesure et donc plus précise sera la mesure de la variation du rayonnement.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=1]{pixel_values.png}
+\caption{Les valeurs des pixels}
+\end{figure}
+
+\par
+En observation de la Terre on peut exploiter :
+\begin{mylist}
+\item
+des ondes émises par le soleil puis réfléchies par la surface de la Terre et enregistrées par un capteur placé sur un satellite.
+\item
+des ondes émises par un émetteur artificiel placé sur le satellite puis réfléchies par la surface de la Terre et enregistrées par un capteur placé sur ce même satellite.
+\end{mylist}
+
+Dans le premier cas on parle d'\textbf{images optiques} (télédétection passive), dans le second cas d'\textbf{images radar} (télédétection active).
+
+
+\par
+La télédétection radar présente l’avantage de s’affranchir des contraintes de couverture nuageuse : les ondes émises par les satellites traversent les nuages pouvoir acquérir des images de jour comme de nuit. En revanche, leur exploitation pour l’observation de la Terre est moins intuitive quel les images optique, ainsi différents domaines spectraux sont exploité (longueurs d’onde du visible à l’infrarouge).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.3]{image_radar.png}
+\caption{Exemple d'image radar prise par le sattellite Sentinel-1 et ALOS/PALSAR}
+\end{figure}
 
 \subsection{Les satellites au service de l'agriculture}
 
 
 Dans le domaine de l'agriculture, les satellites d'observation de la Terre sont utilisés pour une très grande variété d’applications et de services, comme la surveillance des cultures, le contrôle des surfaces et de l'occupation des sols, l'irrigation et la des gestion des cultures en engrais et produits phytosanitaires. Ils sont également utilisés pour suivre la production d'herbe tout au long de la saison culturale.  \cite{satt}
-\newpage
 
-\begin{figure}[hp]
+
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.65]{prev.jpg}
 \caption{Prévision de la production agricole}
@@ -253,6 +312,32 @@ Un autre avantage est le potentiel d'améliorer considérablement la précision 
 \centering
 \includegraphics[scale=0.5]{deep.png}
 \caption{Le processus de Deep Learning}
+\end{figure}
+
+\subsection{Outils pour le Crop Mapping}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.4]{Groundwork.png}
+\caption{Groundwork logo}
+\end{figure}
+
+On a testé l'outil GroundWork de la compagnie azavea qui est en charge à la réalisation des modèles personalisé de machine learning qui analyse les images de drones et de satellites.
+Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.
+\par
+La création du projet est comme ce qui suit : on determine d'abord le type du projet, c'est à dire soit détection d'objet, segmentation sémantique ou classification d'image, ensuite, on entre l'url de l'image qu'on veut ségmenter, puis on spécifie ce qu'on doit ségmenter (surface verte, l'eau, le sol ...) ainsi avec son processus de machine learning il nous ségmente notre image avec les classes que nous avons définis.
+A la fin, on exporte notre image avec les étiquettes, mais aussi des données qu'on peut traiter avec pySTAC qui est une bibliothèque de python crée par la même compagnie.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.4]{groundwork_screen1.jpg}
+\caption{Groundwork analysant l'image partie par partie}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.4]{groundwork_screen2.jpg}
+\caption{Résultat d'une fragmentation d'un image avec des étiquettes}
 \end{figure}
 
 \begin{thebibliography}{9}
