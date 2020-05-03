@@ -10,6 +10,7 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage[nottoc]{tocbibind}
+\usepackage{amsmath,diagbox,tabu}
 
 \hypersetup{
     colorlinks=true,
@@ -311,29 +312,34 @@ Un autre avantage est le potentiel d'améliorer considérablement la précision 
 
 \subsection{Outils pour le Crop Mapping}
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{Groundwork.png}
-\caption{Groundwork logo}
-\end{figure}
+On a essayé de faire une comparaison entre les outils les plus populaires dans le domaine du Crop Mapping :
 
-On a testé l'outil GroundWork de la compagnie azavea qui est en charge à la réalisation des modèles personalisé de machine learning qui analyse les images de drones et de satellites.
-Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.\cite{groundwork}
-\par
-La création du projet est comme ce qui suit : on determine d'abord le type du projet, c'est à dire soit détection d'objet, segmentation sémantique ou classification d'image, ensuite, on entre l'url de l'image qu'on veut ségmenter, puis on spécifie ce qu'on doit ségmenter (surface verte, l'eau, le sol ...) ainsi avec son processus de machine learning il nous ségmente notre image avec les classes que nous avons définis.
-A la fin, on exporte notre image avec les étiquettes, mais aussi des données qu'on peut traiter avec pySTAC qui est une bibliothèque de python crée par la même compagnie.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{groundwork_screen1.jpg}
-\caption{Groundwork analysant l'image partie par partie}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{groundwork_screen2.jpg}
-\caption{Résultat d'une fragmentation d'un image avec des étiquettes}
-\end{figure}
+{\setlength{\tabulinesep}{3pt}
+\begin{tabu}{|c|c|c|c|c|c|}
+\hline
+\diagbox{caractéristiques}{L'outil} & ENVI & QGIS & ArcGIS & CMaps Analytics & TerrSet\\
+\hline
+Imagerie 3D & - & + & + & - & -\\
+\hline
+Intégration des données du recensement & - & + & + & + & -\\
+\hline
+Géocodage & - & + & + & + & +\\
+\hline
+Exportation d'images & + & + & + & - & +\\
+\hline
+Cartographie Internet & + & - & + & + & -\\
+\hline
+L'interopérabilité & - & + & + & + & -\\
+\hline
+Étiquetage & + & + & + & - & -\\
+\hline
+Création de carte & + & + & + & + & +\\
+\hline
+Partage de carte & - & - & + & + & -\\
+\hline
+Analyse spatiale & - & + & + & + & +\\
+\hline
+\end{tabu}}
 
 \begin{thebibliography}{9}
 
