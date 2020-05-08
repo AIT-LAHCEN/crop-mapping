@@ -342,7 +342,7 @@ Analyse spatiale & - & + & + & + & +\\
 \end{tabu}}\\
 
 
-Pour les algorithmes:\\
+\subsubsection{Pour les algorithmes :}
 
 
 ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV transformation/Gram-Schmidt Spectral Sharpening, PC Spectral Sharpening/...) entre autres transformations de bande (Veg. Index calculation/ Tasseled Cap Transformation/ ...). Le côté positif est le fait que vous pouvez facilement programmer ENVI avec IDL pour effectuer des travaux de traitement par lots (beaucoup de données) ou créer un programme IDL autonome pour une autre transformation non déjà incluse dans ENVI\\
@@ -350,6 +350,28 @@ ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV trans
 QGIS est principalement conçu pour fonctionner avec des données vectorielles SIG, il prend en charge de nombreux formats d'images raster via la bibliothèque open source GDAL et GRASS.\\
 
 Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire vos données et d'appliquer les transformations dont vous avez besoin. Bien sûr, ce n'est pas une approche "pointer et cliquer".\\
+
+\newpage
+\subsubsection{Test de l'outil QGIS :}
+QGIS utilise Orfeo ToolBox (OTB) qui est une bibliothèque d’algorithmes de traitement d’image. OTB est basée sur la bibliothèque de traitement d’images médicales et fournit des fonctionnalités dédiées aux traitements d’images de télédétection ou pour les images de haute résolution spatiale. Les algorithmes dédiés aux images de grandes résolutions optiques (Pleiades, SPOT, QuickBird, WorldView, Landsat, Ikonos), aux capteurs hyperspectraux sensors (Hyperion) ou aux radars à synthèse d’ouverture (TerraSarX, ERS, Palsar) sont disponibles.
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{orfeo.png}
+\caption{La bibliothèque Orfeo ToolBox (OTB)}
+\end{figure}
+
+Le module "otb" permet l'utilisation de la bibliothèque de calcul numérique haute performance "TensorFlow" . L'API C ++ de TensorFlow est utilisée pour exécuter des sessions tensorflow à l' intérieur de filtres conformes au mécanisme de streaming d'ITK et OTB, ce qui signifie qu'il n'y a pas de limitation sur la taille des images à traiter.
+
+
+Voici un exemple de segmentation qu'offre QGIS :
+\begin{figure}[ht]
+\centering
+\noindent
+\includegraphics[width=1.1\textwidth]{test_segmentation.png}
+\caption{Segmentation avec QGIS}
+\end{figure}
+
+
 
 
 
@@ -400,9 +422,7 @@ Deep Learning Classification\\
 \textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 )}\\
 \url{https://ieeexplore.ieee.org/abstract/document/7891032?fbclid=IwAR3TiBL273ykf0RpPCORrCK0hayB4ePCgp21eh76O0cBOBMBszCdKtk2E1g}
 
-\bibitem{groundwork}
-L'outil GroundWork\\
-\url{https://groundwork.azavea.com}
+
 
 \end{thebibliography}
 
