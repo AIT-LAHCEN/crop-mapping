@@ -144,11 +144,13 @@ Le résultat de ces études permet une bonne localisation des limites parcellair
 
 L'agriculture est un secteur économique très important du Maroc. Il génère environ 14 \% du produit intérieur brut (PIB), mais avec des variations importantes (11 à 18 \%) selon les années en fonction des conditions climatiques. Ses performances conditionnent même celles de l’économie tout entière : le taux de croissance du pays est fortement corrélé à celui de la production agricole. L’agriculture demeure par ailleurs le premier pourvoyeur d’emplois du pays, loin devant les autres secteurs économiques, 40 \% de la population active vivant de ce secteur.\cite{imagesatt}
 
+L’agro-industrie marocaine dont de nombreuses composantes jouissent de certifications ISO peut, légitimement être fière de tout le progrès accompli. Son savoir-faire confirmé lui permet de se placer sur de nombreux marchés extérieurs, très exigeants en qualité, avec des produits très diversifiés relevant de 10 classes différentes.\cite{agr}
+
 
 \begin{figure}[hp]
 \centering
-\includegraphics[scale=0.8]{etat.jpg}
-\caption{L'état des cultures au maroc}
+\includegraphics[scale=0.9]{agr.jpg}
+\caption{L'agro-industrie au maroc}
 \end{figure}
 
 
@@ -315,29 +317,29 @@ Un autre avantage est le potentiel d'améliorer considérablement la précision 
 On a essayé de faire une comparaison entre les outils les plus populaires dans le domaine du Crop Mapping :
 
 {\setlength{\tabulinesep}{3pt}
-\begin{tabu}{|c|c|c|c|c|c|}
+\begin{tabu}{|c|c|c|c|c|c|c|}
 \hline
-\diagbox{caractéristiques}{L'outil} & ENVI & QGIS & ArcGIS & CMaps Analytics & TerrSet\\
+\diagbox{caractéristiques}{L'outil}&ENVI&QGIS&ArcGIS&CMaps&TerrSet&Groundwork\\
 \hline
-Imagerie 3D & - & + & + & - & -\\
+Imagerie 3D & - & + & + & - & - & -\\
 \hline
-Intégration des données du recensement & - & + & + & + & -\\
+Intégration des données du recensement& - & + & + & + & - & +\\
 \hline
-Géocodage & - & + & + & + & +\\
+Géocodage & - & + & + & + & + & -\\
 \hline
-Exportation d'images & + & + & + & - & +\\
+Exportation d'images & + & + & + & - & + & +\\
 \hline
-Cartographie Internet & + & - & + & + & -\\
+Cartographie Internet & + & - & + & + & - & -\\
 \hline
-L'interopérabilité & - & + & + & + & -\\
+L'interopérabilité & - & + & + & + & - & -\\
 \hline
-Étiquetage & + & + & + & - & -\\
+Étiquetage & + & + & + & - & - & +\\
 \hline
-Création de carte & + & + & + & + & +\\
+Création de carte & + & + & + & + & + & +\\
 \hline
-Partage de carte & - & - & + & + & -\\
+Partage de carte & - & - & + & + & - & -\\
 \hline
-Analyse spatiale & - & + & + & + & +\\
+Analyse spatiale & - & + & + & + & + & -\\
 \hline
 \end{tabu}}\\
 
@@ -347,9 +349,9 @@ Analyse spatiale & - & + & + & + & +\\
 
 ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV transformation/Gram-Schmidt Spectral Sharpening, PC Spectral Sharpening/...) entre autres transformations de bande (Veg. Index calculation/ Tasseled Cap Transformation/ ...). Le côté positif est le fait que vous pouvez facilement programmer ENVI avec IDL pour effectuer des travaux de traitement par lots (beaucoup de données) ou créer un programme IDL autonome pour une autre transformation non déjà incluse dans ENVI\\
 
-QGIS est principalement conçu pour fonctionner avec des données vectorielles SIG, il prend en charge de nombreux formats d'images raster via la bibliothèque open source GDAL et GRASS.\\
+QGIS est principalement conçu pour fonctionner avec des données vectorielles de type GIS (Geographic Information System), il prend en charge de nombreux formats d'images raster (svg, jpg, png, tif, ...) via les bibliothèques open source GDAL et GRASS.\\
 
-Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire vos données et d'appliquer les transformations dont vous avez besoin. Bien sûr, ce n'est pas une approche "pointer et cliquer".\\
+Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire vos données et d'appliquer les transformations dont vous avez besoin.\\
 
 \newpage
 \subsubsection{Test de l'outil QGIS :}
@@ -371,6 +373,31 @@ Voici un exemple de segmentation qu'offre QGIS :
 \caption{Segmentation avec QGIS}
 \end{figure}
 
+\newpage
+\subsubsection{Test de l'outil Groundwork :}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{Groundwork.png}
+\caption{Groundwork logo}
+\end{figure}
+
+On a testé l'outil GroundWork de la compagnie azavea qui est en charge à la réalisation des modèles personalisé de machine learning qui analyse les images de drones et de satellites.
+Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.\cite{groundwork}
+\par
+La création du projet est comme ce qui suit : on determine d'abord le type du projet, c'est à dire soit détection d'objet, segmentation sémantique ou classification d'image, ensuite, on entre l'url de l'image qu'on veut ségmenter, puis on spécifie ce qu'on doit ségmenter (surface verte, l'eau, le sol ...) ainsi avec son processus de machine learning il nous ségmente notre image avec les classes que nous avons définis.
+A la fin, on exporte notre image avec les étiquettes, mais aussi des données qu'on peut traiter avec pySTAC qui est une bibliothèque de python crée par la même compagnie.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{groundwork_screen1.jpg}
+\caption{Groundwork analysant l'image partie par partie}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{groundwork_screen2.jpg}
+\caption{Résultat d'une fragmentation d'un image avec des étiquettes}
+\end{figure}
 
 
 
@@ -386,6 +413,11 @@ Agriculture et Biodiversité en Bretagne\\
 Les images et les statistiques concernat le Maroc\\
 \textit{Centre Royal de Télédétection Spatiale}.\\
 \url{https://www.crts.gov.ma/thematiques/agriculture/suivi-d-etat-des-cultures}
+
+\bibitem{agr}
+Agriculture en chiffres 2018 (édition 2019)\\
+\textit{Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts}\\
+\url{http://www.agriculture.gov.ma/pages/publications/agriculture-en-chiffres-2018-edition-2019}
 
 \bibitem{orbite}
 Combien de satellite tournent autour de la Terre ?\\
@@ -421,6 +453,10 @@ MODIS Vegetation Index Products\\
 Deep Learning Classification\\
 \textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 )}\\
 \url{https://ieeexplore.ieee.org/abstract/document/7891032?fbclid=IwAR3TiBL273ykf0RpPCORrCK0hayB4ePCgp21eh76O0cBOBMBszCdKtk2E1g}
+
+\bibitem{groundwork}
+L'outil GroundWork\\
+\url{https://groundwork.azavea.com}
 
 
 
