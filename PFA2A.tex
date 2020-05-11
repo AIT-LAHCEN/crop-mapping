@@ -150,7 +150,7 @@ L’agro-industrie marocaine dont de nombreuses composantes jouissent de certifi
 \begin{figure}[hp]
 \centering
 \includegraphics[scale=0.9]{agr.jpg}
-\caption{L'agro-industrie au maroc}
+\caption{L'agro-industrie au maroc entre 2017 et 2018}
 \end{figure}
 
 
@@ -319,17 +319,17 @@ On a essayé de faire une comparaison entre les outils les plus populaires dans 
 {\setlength{\tabulinesep}{3pt}
 \begin{tabu}{|c|c|c|c|c|c|c|}
 \hline
-\diagbox{caractéristiques}{L'outil}&ENVI&QGIS&ArcGIS&CMaps&TerrSet&Groundwork\\
+\diagbox{caractéristiques}{L'outil}&\href{https://www.harrisgeospatial.com/Software-Technology/ENVI}{ENVI}&\href{https://groundwork.azavea.com}{QGIS}&\href{https://www.arcgis.com/index.html}{ArcGIS}&\href{https://cmapsconnect.com/}{CMaps}&\href{https://clarklabs.org/terrset/}{TerrSet}&\href{https://groundwork.azavea.com/}{Groundwork}\\
+\hline
+Open Source & - & + & - & - & - & -\\
 \hline
 Imagerie 3D & - & + & + & - & - & -\\
-\hline
-Intégration des données du recensement& - & + & + & + & - & +\\
 \hline
 Géocodage & - & + & + & + & + & -\\
 \hline
 Exportation d'images & + & + & + & - & + & +\\
 \hline
-Cartographie Internet & + & - & + & + & - & -\\
+Internet Mapping & + & - & + & + & - & -\\
 \hline
 L'interopérabilité & - & + & + & + & - & -\\
 \hline
@@ -339,19 +339,17 @@ Création de carte & + & + & + & + & + & +\\
 \hline
 Partage de carte & - & - & + & + & - & -\\
 \hline
-Analyse spatiale & - & + & + & + & + & -\\
-\hline
 \end{tabu}}\\
 
 
-\subsubsection{Pour les algorithmes :}
+\subsubsection{Au niveau des algorithmes :}
 
 
-ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV transformation/Gram-Schmidt Spectral Sharpening, PC Spectral Sharpening/...) entre autres transformations de bande (Veg. Index calculation/ Tasseled Cap Transformation/ ...). Le côté positif est le fait que vous pouvez facilement programmer ENVI avec IDL pour effectuer des travaux de traitement par lots (beaucoup de données) ou créer un programme IDL autonome pour une autre transformation non déjà incluse dans ENVI\\
+ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV transformation/Gram-Schmidt Spectral Sharpening, PC Spectral Sharpening/...) entre autres transformations de bande (Veg. Index calculation/ Tasseled Cap Transformation/ ...). Le côté positif est le fait que vous pouvez facilement programmer ENVI avec IDL pour effectuer des travaux de traitement par lots (beaucoup de données) ou créer un programme IDL autonome pour une autre transformation non déjà incluse dans ENVI.\\
 
 QGIS est principalement conçu pour fonctionner avec des données vectorielles de type GIS (Geographic Information System), il prend en charge de nombreux formats d'images raster (svg, jpg, png, tif, ...) via les bibliothèques open source GDAL et GRASS.\\
 
-Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire vos données et d'appliquer les transformations dont vous avez besoin.\\
+Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire les données et d'appliquer les transformations nécessaires.\\
 
 \newpage
 \subsubsection{Test de l'outil QGIS :}
@@ -382,7 +380,7 @@ Voici un exemple de segmentation qu'offre QGIS :
 \end{figure}
 
 On a testé l'outil GroundWork de la compagnie azavea qui est en charge à la réalisation des modèles personalisé de machine learning qui analyse les images de drones et de satellites.
-Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.\cite{groundwork}
+Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.
 \par
 La création du projet est comme ce qui suit : on determine d'abord le type du projet, c'est à dire soit détection d'objet, segmentation sémantique ou classification d'image, ensuite, on entre l'url de l'image qu'on veut ségmenter, puis on spécifie ce qu'on doit ségmenter (surface verte, l'eau, le sol ...) ainsi avec son processus de machine learning il nous ségmente notre image avec les classes que nous avons définis.
 A la fin, on exporte notre image avec les étiquettes, mais aussi des données qu'on peut traiter avec pySTAC qui est une bibliothèque de python crée par la même compagnie.
@@ -454,9 +452,7 @@ Deep Learning Classification\\
 \textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 )}\\
 \url{https://ieeexplore.ieee.org/abstract/document/7891032?fbclid=IwAR3TiBL273ykf0RpPCORrCK0hayB4ePCgp21eh76O0cBOBMBszCdKtk2E1g}
 
-\bibitem{groundwork}
-L'outil GroundWork\\
-\url{https://groundwork.azavea.com}
+
 
 
 
