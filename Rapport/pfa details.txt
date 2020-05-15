@@ -31,4 +31,5 @@ les domaines au maroc.
 
 ajouter les logiciels + les infos sur ces logiciels
 
+imlpémentation svm images l'output une image ségementé avec deep learning
 
