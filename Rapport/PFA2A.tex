@@ -421,7 +421,7 @@ dans l'espace, cartographiée de manière à ce que les exemples des catégories
 \end{figure}
 
 \par
-Les SVM ont été appliqués à de très nombreux domaines (bio-informatique, recherche d'information, vision par ordinateur, finance1…). Selon les données, la performance des machines à vecteurs de support est de même ordre, ou même supérieure, à celle d'un réseau de neurones ou d'un modèle de mélanges gaussiens.
+Les SVM ont été appliqués à de très nombreux domaines (bio-informatique, recherche d'information, vision par ordinateur, finance…). Selon les données, la performance des machines à vecteurs de support est de même ordre, ou même supérieure, à celle d'un réseau de neurones ou d'un modèle de mélanges gaussiens.
 
 \subsubsection{SVM dans python}
 Dans Scikit-learn, les SVM sont implémentées dans le module "sklearn.svm".
@@ -465,7 +465,7 @@ Pour son application on a utilisé la même image précédente et on a définie 
 \end{figure}
 
 \subsection{Multi-Otsu threshold}
-Le seuil multi-Otsu est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
+Multi-Otsu Threasholding est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
 Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes. Le nombre de classes par défaut est 3: pour obtenir trois classes, l'algorithme renvoie deux valeurs de seuil.
 
 \begin{figure}[ht]
@@ -474,9 +474,9 @@ Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes. Le n
 \caption{Segmentation avec multi-Otsu threshold}
 \end{figure}
 
-\section{Comparaison des méthodes de détection des contours}\cite{comparaison}
+\section{Comparaison des méthodes de détection des contours}
 Le contour c’est la zone où il existe des différences extrêmes dans les intensités du pixel indique généralement un bord d'un objet.
-Nous mettrons en œuvre certaines des méthodes les plus utilisées et utiliserons également les méthodes d'Open CV et de PIL.
+Nous mettrons en œuvre certaines des méthodes les plus utilisées et utiliserons également les méthodes d'Open CV et de PIL.\cite{comparaison}
 \noindent Nous comparerons les méthodes suivantes:
 \begin{mylist}
 \item Détecteur de contour Sobel
@@ -490,7 +490,7 @@ Sobel est un opérateur très courant pour détecter les bords d'une image, qui 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.9]{sobel_masque.jpg}
-\caption{Le masque de Sobel}
+\caption{Les masques de Sobel}
 \end{figure}
 
 Voici le résultat en appliquant le filtre de Sobel à l'image original :
@@ -508,7 +508,7 @@ L'opérateur de Prewitt est similaire à l'opérateur de Sobel, il est utilisé 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.9]{prewit_masque.png}
-\caption{Masque de prewitt}
+\caption{Les masques de prewitt}
 \end{figure}
 
 Au niveau du code, la seule différence est le masque.
