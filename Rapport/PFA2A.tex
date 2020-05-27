@@ -11,6 +11,8 @@
 \usepackage{enumitem}
 \usepackage[nottoc]{tocbibind}
 \usepackage{amsmath,diagbox,tabu}
+\usepackage{caption}
+\usepackage{float}
 
 \hypersetup{
     colorlinks=true,
@@ -97,9 +99,10 @@ Parmi les technologies modernes qui facilitent la tâche pour les acteurs de la 
 Ce rapport est constitué en deux parties. La première partie, intitulée contexte générale du projet, comporte ... chapitres, le premier présente les notions générales du sujets.
 
 
-\chapter{Présentation du sujet}
+\part{Étude du sujet}
 Cette partie va présenter les différentes notions abordées dans le projet accompagnées de quelques exemples. 
 
+\chapter{Présentation du sujet}
 \section{Les parcelles}
 
 \subsection{Définition de parcelle}
@@ -262,6 +265,7 @@ L'intérêt d'utiliser des satellites s'explique par leur capacité à  fournir 
 \par
 Ce type d'image a supplanté les systèmes antérieurs en démontrant qu'il pouvait prendre en compte l'état réel des cultures et de la croissance de la végétation à l'intérieur des parcelles à différents stades de la pousse.
 
+\chapter{Analyse du sujet}
 \section{Crop Mapping}
 \subsection{Définition}
 C’est une technique en agriculture qui utilise des données GPS pour analyser des variables telles que le rendement des cultures et la teneur en eau dans un champ donné. Il a été développé dans les années 1990 et utilise une combinaison de technologie GPS et de capteurs physiques, tels que des compteurs de vitesse , pour suivre les rendements des cultures, la vitesse de l'élévateur à grains et combiner la vitesse.
@@ -306,7 +310,7 @@ L’avantage de cette méthode est d’étudier des modèles de deep learning/ma
 
 Un autre avantage est le potentiel d'améliorer considérablement la précision d'un modèle avec plus de données réelles recueillies au sol de la région étudié en utilisant des données spécifiques. Cependant, il est possible d'obtenir de meilleurs résultats avec l'ensemble de données de formation (training data set) plus spécifiques.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{deep.png}
 \caption{Le processus de Deep Learning}
@@ -351,7 +355,6 @@ QGIS est principalement conçu pour fonctionner avec des données vectorielles d
 
 Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire les données et d'appliquer les transformations nécessaires.\\
 
-\newpage
 \subsubsection{Test de l'outil QGIS :}
 QGIS utilise Orfeo ToolBox (OTB) qui est une bibliothèque d’algorithmes de traitement d’image. OTB est basée sur la bibliothèque de traitement d’images médicales et fournit des fonctionnalités dédiées aux traitements d’images de télédétection ou pour les images de haute résolution spatiale. Les algorithmes dédiés aux images de grandes résolutions optiques (Pleiades, SPOT, QuickBird, WorldView, Landsat, Ikonos), aux capteurs hyperspectraux sensors (Hyperion) ou aux radars à synthèse d’ouverture (TerraSarX, ERS, Palsar) sont disponibles.
 \begin{figure}[ht]
@@ -367,7 +370,7 @@ Voici un exemple de segmentation qu'offre QGIS :
 \begin{figure}[ht]
 \centering
 \noindent
-\includegraphics[width=1.1\textwidth]{test_segmentation.png}
+\includegraphics[width=1\textwidth]{test_segmentation.png}
 \caption{Segmentation avec QGIS}
 \end{figure}
 
@@ -397,8 +400,163 @@ A la fin, on exporte notre image avec les étiquettes, mais aussi des données q
 \caption{Résultat d'une fragmentation d'un image avec des étiquettes}
 \end{figure}
 
+%Deuxième partie ____________________________________________________%
+
+\part{Réalisation}
+
+\chapter{Ségmentation et application des filtres}
+
+\section{Algorithmes de segmentation}
+
+\subsection{Support Vector Machine (SVM)}
+
+\subsubsection{Définition}
+En Machine Learning, les machines à vecteurs de support (SVM) sont des modèles d'apprentissage supervisé avec des algorithmes d'apprentissage associés destinées à résoudre des problèmes de discrimination et de régression. 
+\par
+Un modèle SVM est une représentation des exemples sous forme de points
+dans l'espace, cartographiée de manière à ce que les exemples des catégories distinctes soient divisés par un espace clair aussi large que possible. De nouveaux exemples sont ensuite mappés dans ce même espace et devraient appartenir à une catégorie en fonction du côté de l'écart sur lequel ils se trouvent.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.2]{svm.png}
+\caption{Division de l'espace par SVM}
+\end{figure}
+
+\par
+Les SVM ont été appliqués à de très nombreux domaines (bio-informatique, recherche d'information, vision par ordinateur, finance1…). Selon les données, la performance des machines à vecteurs de support est de même ordre, ou même supérieure, à celle d'un réseau de neurones ou d'un modèle de mélanges gaussiens.
+
+\subsubsection{SVM dans python}
+Dans Scikit-learn, les SVM sont implémentées dans le module "sklearn.svm".
+Scikit-Learn contient la bibliothèque svm, qui contient des classes intégrées pour différents algorithmes SVM. 
+\par
+Nous avons effectuer une tâche de classification supervisé sur image sattelite d'une culture entre la région d'Assilah et Larache, nous utiliserons la classe de classificateur de vecteur de support, qui se nomme 'SVC' dans la bibliothèque svm de Scikit-Learn.
+\par
+Cette classe prend plusieurs paramètres qui sont en ralations avec des formules mathématiques correspondantes à SVM, et qui peuvent affecter le degré de netteté de la ségmentation.
+\par
+Voici un exemple d'une ségmentation en définissant trois classes sur l'image originale : 
+
+\begin{figure}[h]
+\centering
+\hspace*{-0.5in}
+\includegraphics[scale=0.9]{classification.png}
+\caption{Classification par SVM}
+\end{figure}
+
+\noindent Les classes sont les suivantes : 
+
+\begin{mylist}
+\item La partie verte : végétation.
+\item La partie rouge : terre fertilisée.
+\item La partie bleu : terre rocheuse.
+\end{mylist}
+
+\subsection{K-means algorithm}
 
 
+K-Means Clustering est un algorithme de machine learning non supervisé. Contrairement aux algorithmes traditionnels de machine learning supervisé, K-Means tente de classer les données sans avoir d'abord été formé avec des données étiquetées. Une fois l'algorithme exécuté et les groupes définis, toutes les nouvelles données peuvent être facilement attribuées au groupe le plus pertinent.
+\par 
+Parmi les applications réelles de k-means on trouve : le profiling, la segmentation du marché, les moteurs de recherche, l'astronomie ...\cite{k-means}
+
+\par
+Pour son application on a utilisé la même image précédente et on a définie trois cluster pour la ségmentation voice le résultat : 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.9]{kmeans.png}
+\caption{Segmentation avec K-Means}
+\end{figure}
+
+\subsection{Multi-Otsu threshold}
+Le seuil multi-Otsu est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
+Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes. Le nombre de classes par défaut est 3: pour obtenir trois classes, l'algorithme renvoie deux valeurs de seuil.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.9]{osupng.png}
+\caption{Segmentation avec multi-Otsu threshold}
+\end{figure}
+
+\section{Comparaison des méthodes de détection des contours\cite{comparaison}}
+Le contour c’est la zone où il existe des différences extrêmes dans les intensités du pixel indique généralement un bord d'un objet.
+Nous mettrons en œuvre certaines des méthodes les plus utilisées et utiliserons également les méthodes d'Open CV et de PIL.
+\noindent Nous comparerons les méthodes suivantes:
+\begin{mylist}
+\item Détecteur de contour Sobel
+\item Détecteur de contour Prewitt
+\item Détecteur de contour Canny
+\end{mylist}
+
+\subsection{Opérateur Sobel}
+Sobel est un opérateur très courant pour détecter les bords d'une image, qui est une approximation d'une dérivée d'une image. Il est séparé dans les directions 'y' et 'x'. Ici, nous utilisons une matrice de noyau 3 * 3, une pour chaque direction 'x' et 'y'. Le gradient pour la direction 'x' a des nombres négatifs à gauche et des nombres positifs à droite et nous préservons les pixels centraux. De même, le gradient pour la direction 'y' a des nombres négatifs en bas et des nombres positifs en haut .
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{sobel_masque.jpg}
+\caption{Le masque de Sobel}
+\end{figure}
+
+Voici le résultat en appliquant le filtre de Sobel à l'image original :
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{sobel_result.png}
+\caption{Filtre de Sobel appliqué à l'image originale}
+\end{figure}
+
+
+\subsection{Opérateur de Prewitt}
+L'opérateur de Prewitt est similaire à l'opérateur de Sobel, il est utilisé pour détecter les contours verticaux et horizontaux dans les images. Cependant, contrairement au Sobel, cet opérateur ne met pas l'accent sur les pixels les plus proches du centre du masque.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{prewit_masque.png}
+\caption{Masque de prewitt}
+\end{figure}
+
+Au niveau du code, la seule différence est le masque.
+Le résultat est le suivant : 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{prewitt_result.png}
+\caption{Application du filtre de Prewitt}
+\end{figure}
+
+\subsection{Opérateur Canny}
+Le détecteur de contour Canny est probablement la méthode la plus utilisée et la plus efficace, c'est une méthode de détection de contour beaucoup plus complexe que celles décrites ci-dessus.
+\noindent Les étapes de cette méthode sont les suivantes :
+\begin{enumerate}
+    \item Lissage de l'image avec un filtre gaussien pour réduire le bruit.
+    \item Le calcul du gradient en utilisant l'un des opérateurs de gradient Sobel ou Prewitt.
+    \item Extraction des points de contour: suppression non maximale.
+    \item Liaison et seuillage: hystérésis
+\end{enumerate}
+
+Après les deux premières étapes, il faut également calculer l'orientation des gradients «thêta = arctan (Gy / Gx)». Gy et Gx sont respectivement la direction x du gradient et la direction y.
+Parlons maintenant de la suppression non maximale et de ce qu'elle fait. Dans cette étape, nous essayons de relier la direction des contours à une direction qui peut être tracée le long des contours en fonction des forces de gradient et des directions des contours précédemment calculées. À chaque emplacement de pixel, nous avons quatre directions possibles. Nous vérifions toutes les directions si le gradient est maximum à ce point. Les valeurs de pixels perpendiculaires sont comparées à la valeur dans la direction du contour. Si leur valeur est inférieure au pixel sur le contour, ils sont supprimés. Après cette étape, nous obtiendrons des contours minces cassés qui doivent être réparés, alors passons à l'étape suivante.
+L'hystérésis est un moyen de relier les lignes brisées produites à l'étape précédente. Cela se fait en itérant sur les pixels et en vérifiant si le pixel actuel est un contour. S'il s'agit d'un contour, vérifiez les environs pour les contours. S'ils ont la même direction, nous les marquons comme pixel de contour. Nous utilisons également 2 seuils, un haut et un bas. Si les pixels sont supérieurs au seuil inférieur, ils sont marqués comme un contour. Ensuite, les pixels supérieurs au seuil inférieur et également supérieurs au seuil élevé sont également sélectionnés comme pixels à fort contour. Quand il n'y a plus de changements à l'image, nous nous arrêtons.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.78]{filtre de canny.png}
+\caption{Masque de canny}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%Bibliographie_______________________________________________________
 
 \begin{thebibliography}{9}
 
@@ -449,9 +607,18 @@ MODIS Vegetation Index Products\\
 
 \bibitem{deeplearning}
 Deep Learning Classification\\
-\textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 )}\\
+\textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 }\\
 \url{https://ieeexplore.ieee.org/abstract/document/7891032?fbclid=IwAR3TiBL273ykf0RpPCORrCK0hayB4ePCgp21eh76O0cBOBMBszCdKtk2E1g}
 
+\bibitem{k-means}
+K-means Clustering Python Example\\
+\textit{Cory Maklin, Medium, Dec 28/2018}
+\url{https://towardsdatascience.com/machine-learning-algorithms-part-9-k-means-example-in-python-f2ad05ed5203}
+
+\bibitem{comparaison}
+Comparing Edge Detection Methods\\
+\textit{Nike Tsankashvili, 20 Jan 2018, Medium}\\
+\url{https://medium.com/@nikatsanka/comparing-edge-detection-methods-638a2919476e}
 
 
 
