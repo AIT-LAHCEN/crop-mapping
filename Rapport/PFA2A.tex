@@ -412,8 +412,7 @@ A la fin, on exporte notre image avec les étiquettes, mais aussi des données q
 \subsubsection{Définition}
 En Machine Learning, les machines à vecteurs de support (SVM) sont des modèles d'apprentissage supervisé avec des algorithmes d'apprentissage associés destinées à résoudre des problèmes de discrimination et de régression. 
 \par
-Un modèle SVM est une représentation des exemples sous forme de points
-dans l'espace, cartographiée de manière à ce que les exemples des catégories distinctes soient divisés par un espace clair aussi large que possible. De nouveaux exemples sont ensuite mappés dans ce même espace et devraient appartenir à une catégorie en fonction du côté de l'écart sur lequel ils se trouvent.
+Un modèle SVM est une représentation des données sous forme de points dans l'espace, cartographiée de manière à ce que les données des catégories distinctes soient divisés par un espace clair aussi large que possible. De nouvelles données sont ensuite mappés dans ce même espace et devraient appartenir à une catégorie en fonction du côté de l'écart sur lequel elles se trouvent.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.2]{svm.png}
@@ -451,14 +450,64 @@ Voici un exemple d'une ségmentation en définissant trois classes sur l'image o
 \subsection{K-means algorithm}
 
 
-K-Means Clustering est un algorithme de machine learning non supervisé. Contrairement aux algorithmes traditionnels de machine learning supervisé, K-Means tente de classer les données sans avoir d'abord été formé avec des données étiquetées. Une fois l'algorithme exécuté et les groupes définis, toutes les nouvelles données peuvent être facilement attribuées au groupe le plus pertinent.
-\par 
-Parmi les applications réelles de k-means on trouve : le profiling, la segmentation du marché, les moteurs de recherche, l'astronomie ...\cite{k-means}
+\cite{k-means definition}K-means est un algorithme non supervisé de clustering non hiérarchique. Il permet de regrouper en K clusters distincts les observations du data set. Ainsi les données similaires se retrouveront  dans un même cluster. Par ailleurs, une observation ne peut se retrouver que dans un cluster à la fois (exclusivité d’appartenance). Une même observation, ne pourra donc, appartenir à deux clusters différents.
+
+
+
+Pour pouvoir regrouper un jeu de données en K cluster distincts, l’algorithme K-Means a besoin d’un moyen de comparer le degré de similarité entre les différentes observations. Ainsi, deux données qui se ressemblent, auront une distance de dissimilarité  réduite, alors que deux objets différents auront une distance de séparation plus grande, cette distance sont calculé par des formules mathématiques et statistiques comme par exemple la distance euclidienne.
+
+La determination du nombre de cluster K peut conduire à un partitionnement trop fragmenté des donnée si on a un jeu de données très grand. Par contre, un nombre de clusters trop petit, conduira à avoir des cluster trop généralistes contenant beaucoup de données.
+
+La méthode la plus usuelle pour choisir le nombre de clusters est de lancer K-Means avec différentes valeurs de K et de calculer la variance des différents clusters.  La variance est la somme des distances entre chaque centre de cluster (centroid) et les différentes observations inclues dans le même cluster. 
+\newline
+La variance des clusters se calcule comme suit :\\
+\makebox[\textwidth]{
+   $ V = \sum_{j} \sum_{x_i\rightarrow c_j} D(c_j,x_i)^2$
+    }
+Avec :
+\begin{mylist}
+
+
+\item $c_j$ : le centre du cluster (le centroid)
+\item $x_i$: la ième observation dans le cluster ayant pour centroïd $c_j$
+\item $D(c_j,x_i)$ : La distance (euclidienne ou autre) entre le centre du cluster et le point $x_i$
+\end{mylist}
+
+
+\textbf{\underline{Fonctionnement de l’algorithme K-Means}}\cite{k-means}
+
+\begin{enumerate}
+    %1-
+    \item Donner en entrée K le nombre de cluster à former et Le Training Set (matrice de données)
+        \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.2]{algo1.png}
+        \end{figure}
+    %2-
+    \item Attribuez chaque point de données au cluster le plus proche en calculant sa distance par rapport à chaque centroïde (centre du cluster)
+        \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.2]{algo2.png}
+        \end{figure}
+    %3-
+    \item Déterminez le nouveau centre du cluster en calculant la moyenne des points attribués
+        \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.2]{algo3.png}
+        \end{figure}
+    %4-
+    \item Répéter les étapes 2 et 3 jusqu'à ce qu'aucune des affectations de cluster ne change
+        \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.2]{algo4.png}
+        \end{figure}
+\end{enumerate}
+
 
 \par
 Pour son application on a utilisé la même image précédente et on a définie trois cluster pour la ségmentation voice le résultat : 
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.9]{kmeans.png}
 \caption{Segmentation avec K-Means}
@@ -541,7 +590,7 @@ L'hystérésis est un moyen de relier les lignes brisées produites à l'étape 
 
 
 
-
+\subsection{Filtre de Gabor}
 
 
 
@@ -608,6 +657,12 @@ MODIS Vegetation Index Products\\
 Deep Learning Classification\\
 \textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 }\\
 \url{https://ieeexplore.ieee.org/abstract/document/7891032?fbclid=IwAR3TiBL273ykf0RpPCORrCK0hayB4ePCgp21eh76O0cBOBMBszCdKtk2E1g}
+
+\bibitem{k-means definition}
+Tout ce que vous voulez savoir sur l’algorithme K-Means\\
+\textit{Younes Benzaki, blog Mr. Mint,  10 avril 2018}
+\url{https://mrmint.fr/algorithme-k-means}
+
 
 \bibitem{k-means}
 K-means Clustering Python Example\\
