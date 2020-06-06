@@ -18,7 +18,7 @@
     colorlinks=true,
     linkcolor=black,
     filecolor=magenta,      
-    urlcolor=cyan,
+    urlcolor=blue,
 }
 \setstretch{1,4}
 \setlength{\parindent}{4ex}
@@ -435,7 +435,7 @@ Voici un exemple d'une ségmentation en définissant trois classes sur l'image o
 \begin{figure}[h]
 \centering
 \hspace*{-0.5in}
-\includegraphics[scale=0.9]{classification.png}
+\includegraphics[scale=1.2]{classification.png}
 \caption{Classification par SVM}
 \end{figure}
 
@@ -460,10 +460,11 @@ La determination du nombre de cluster K peut conduire à un partitionnement trop
 
 La méthode la plus usuelle pour choisir le nombre de clusters est de lancer K-Means avec différentes valeurs de K et de calculer la variance des différents clusters.  La variance est la somme des distances entre chaque centre de cluster (centroid) et les différentes observations inclues dans le même cluster. 
 \newline
-La variance des clusters se calcule comme suit :\\
+\textbf{ La variance des clusters se calcule comme suit :\\}
 \makebox[\textwidth]{
    $ V = \sum_{j} \sum_{x_i\rightarrow c_j} D(c_j,x_i)^2$
     }
+    
 Avec :
 \begin{mylist}
 
@@ -509,17 +510,51 @@ Pour son application on a utilisé la même image précédente et on a définie 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.9]{kmeans.png}
+\includegraphics[scale=1.2]{kmeans.png}
 \caption{Segmentation avec K-Means}
 \end{figure}
 
 \subsection{Multi-Otsu threshold}
-Multi-Otsu Threasholding est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
-Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes. Le nombre de classes par défaut est 3: pour obtenir trois classes, l'algorithme renvoie deux valeurs de seuil.
+\cite{otsu}Multi-Otsu Threasholding est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
+Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes (le nombre de classes par défaut est 3) en passant par toutes les valeurs de seuil possibles (de 0 à 255), le but est donc de trouver la valeur du seuil optimale de l'image d'entrée en calculant et en évaluant la variance inter-classe (ou variance intra-classe).
 
-\begin{figure}[ht]
+Les formules pour calculer les variances entre les classe pour la méthodes Otsu :
+
+\makebox[\textwidth]{
+   $ \sigma_\omega^2(t) = \omega_1(t)\sigma_1^2(t) + \omega_2(t)\sigma_2^2(t)$
+    }
+Avec : 
+\begin{mylist}
+\item $\omega_i$ : la probabilité d'être dans la $i$ème classe, , chacune étant séparée par un seuil $t$
+\item $\sigma_i^2$ : les variances de ces classes
+\end{mylist}
+
+Otsu montre que minimiser la variance intra-classe revient à maximiser la variance inter-classe : 
+
+\makebox[\textwidth]{
+   $ \sigma_b^2(t) =  \sigma^2 - \sigma_\omega^2(t)=
+   \omega_1(t)\omega_2(t)[\mu_1(t)-\mu_2(t)]^2$
+    }
+Avec $\mu_i$ la moyenne des classes
+
+\textbf{\underline{Fonctionnement de l’algorithme Multi-Otsu threshold}}
+
+\begin{enumerate}
+    \item Calculer l'histogramme et les probabilités de chaque niveau d'intensité
+    \item Définir les $\omega_i(0)$  et $\mu_i(0)$ initiaux
+    \item Parcourir tous les seuils possibles $t=1,\ldots,n=$intensité max
+    \begin{enumerate}
+        \item Mettre à jour $\omega_{i}$ et  $\mu_{i}$
+        \item Calculer $\sigma_{b}^{2}(t)$
+    \end{enumerate}
+    \item Le seuil désiré correspond au $\sigma_{b}^{2}(t)$ maximum.
+\end{enumerate}
+
+
+
+\begin{figure}[H]
 \centering
-\includegraphics[scale=0.9]{osupng.png}
+\includegraphics[scale=1.2]{osupng.png}
 \caption{Segmentation avec multi-Otsu threshold}
 \end{figure}
 
@@ -531,6 +566,7 @@ Nous mettrons en œuvre certaines des méthodes les plus utilisées et utilisero
 \item Détecteur de contour Sobel
 \item Détecteur de contour Prewitt
 \item Détecteur de contour Canny
+\item Détecteur de contour Gabor
 \end{mylist}
 
 \subsection{Opérateur Sobel}
@@ -546,7 +582,7 @@ Voici le résultat en appliquant le filtre de Sobel à l'image original :
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.9]{sobel_result.png}
+\includegraphics[scale=1.2]{sobel_result.png}
 \caption{Filtre de Sobel appliqué à l'image originale}
 \end{figure}
 
@@ -564,7 +600,7 @@ Au niveau du code, la seule différence est le masque.
 Le résultat est le suivant : 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.9]{prewitt_result.png}
+\includegraphics[scale=1.2]{prewitt_result.png}
 \caption{Application du filtre de Prewitt}
 \end{figure}
 
@@ -584,7 +620,7 @@ L'hystérésis est un moyen de relier les lignes brisées produites à l'étape 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.78]{canny.png}
+\includegraphics[scale=1.2]{filtre de canny.png}
 \caption{Masque de canny}
 \end{figure}
 
@@ -592,7 +628,50 @@ L'hystérésis est un moyen de relier les lignes brisées produites à l'étape 
 
 \subsection{Filtre de Gabor}
 
+Le filtre de Gabor, est un filtre linéaire utilisé dans une myriade d'applications de traitement d'image pour la détection des bords, l'analyse de texture, l'extraction de caractéristiques, etc. Les caractéristiques de certaines cellules du cortex visuel de certains mammifères peuvent être approximées par ces filtres. Il a été démontré que ces filtres possèdent des propriétés de localisation optimales dans le domaine spatial et fréquentiel et sont donc bien adaptés aux problèmes de segmentation de texture. Les filtres de Gabor sont des classes spéciales de filtres passe-bande, c'est-à-dire qu'ils autorisent une certaine «bande» de fréquences et rejettent les autres. Un filtre de Gabor peut être considéré comme un signal sinusoïdal de fréquence et d'orientation particulières, modulé par une onde gaussienne.
 
+Gabor Filter travaille sur une banque de 16 filtres à une orientation de 11.250 (c'est-à-dire si le premier filtre est à 00, alors le second sera à 11.250, le troisième sera à 22.50, et ainsi de suite.). La figure suivante montre tous les filtres de 16 filtres :
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{gabor_16_filtres.jpg}
+\caption{Banque de 16 filtres de Gabor}
+\end{figure}
+
+Pour mieux comprendre ce que chaque filtre détecte dans l'image d'entrée, considérons un simple cercle blanc sur fond noir. Lorsque cette image passe à travers chaque filtre de la banque de filtres, le bord du cercle qui est détecté est le bord orienté selon un angle auquel le filtre de Gabor est orienté. La figure suivante le montre clairement :
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.9]{gabor_method.jpg}
+\caption{Exemples de détéction de contours pour le filtre Gabor}
+\end{figure}
+
+Voici la structure de la fonction qu’on a utilisée pour créer un noyau Gabor: 
+
+
+\makebox[\textwidth]{
+    \textbf{cv2.getGaborKernel(ksize, $\sigma$, $\theta$, $\lambda$, $\gamma$, $\psi$, ktype)}
+    }
+Avec :
+\begin{mylist}
+\item ksize : la taille du noyau Gabor. 
+\item $\sigma$ : l'écart type de la fonction gaussienne utilisée dans le filtre de Gabor.
+\item $\theta$ : l'orientation de la normale aux bandes parallèles de la fonction de Gabor.
+\item $\lambda$ : la longueur d'onde du facteur sinusoïdal dans l'équation ci-dessus.
+\item $\gamma$ : le rapport d'aspect spatial.
+\item $\psi$ : le décalage de phase.
+\item ktype : le type et la plage de valeurs que chaque pixel du noyau Gabor peut contenir.
+\end{mylist}
+
+Voici notre résultat en appliquant le filtre de Gabor : 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1.2]{gabor_result.png}
+\caption{Filtre de Gabor}
+\end{figure}
 
 
 
@@ -660,14 +739,19 @@ Deep Learning Classification\\
 
 \bibitem{k-means definition}
 Tout ce que vous voulez savoir sur l’algorithme K-Means\\
-\textit{Younes Benzaki, blog Mr. Mint,  10 avril 2018}
+\textit{Younes Benzaki, blog Mr. Mint,  10 avril 2018}\\
 \url{https://mrmint.fr/algorithme-k-means}
 
 
 \bibitem{k-means}
 K-means Clustering Python Example\\
-\textit{Cory Maklin, Medium, Dec 28/2018}
+\textit{Cory Maklin, Medium, Dec 28/2018}\\
 \url{https://towardsdatascience.com/machine-learning-algorithms-part-9-k-means-example-in-python-f2ad05ed5203}
+
+\bibitem{otsu}
+Méthode d'Otsu\\
+\textit{{W}ikipedia{,} The Free Encyclopedia}\\
+\url{https://fr.wikipedia.org/wiki/M\%C3\%A9thode_d\%27Otsu}
 
 \bibitem{comparaison}
 Comparing Edge Detection Methods\\
