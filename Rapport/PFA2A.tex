@@ -51,7 +51,7 @@
 
     % Title
     \HRule \\[0.5cm]
-    { \huge \bfseries Présentation du sujet de projet de fin d'année: Crop Mapping\\[0.4cm] }
+    { \huge \bfseries Rapport du projet de fin d'année: \\Crop Mapping\\[0.4cm] }
 	\HRule\\[4cm]
 
     % Author and supervisor
@@ -151,7 +151,7 @@ L’agro-industrie marocaine dont de nombreuses composantes jouissent de certifi
 
 \begin{figure}[hp]
 \centering
-\includegraphics[scale=0.9]{agr.jpg}
+\includegraphics[scale=1]{agr.jpg}
 \caption{L'agro-industrie au maroc entre 2017 et 2018}
 \end{figure}
 
@@ -620,8 +620,8 @@ L'hystérésis est un moyen de relier les lignes brisées produites à l'étape 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=1.2]{filtre de canny.png}
-\caption{Masque de canny}
+\includegraphics[scale=1.2]{canny_filter.png}
+\caption{Résultat du filtre de canny}
 \end{figure}
 
 
@@ -673,6 +673,45 @@ Voici notre résultat en appliquant le filtre de Gabor :
 \caption{Filtre de Gabor}
 \end{figure}
 
+\section{Résultat final}
+
+On a utilisé une image satellite de taille 478*478, on a commencé par appliquer un simple filtre gaussien pour diminuer le bruit afin d'appliquer une ségmentation bien précise on a donc choisi SVM afin de définir nos propres classes et obtenir un résultat plus clair, par la suite on a essayé d'appliquer un filtre de Canny à l'image originale pour détécter les contours des parcelles, ensuite on a fait une dilatation à ces contours pour qu'ils soit fermés et mieux cohérant, voici le processus pour obtenir le résultat final: 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{imgor.jpg}
+\caption{L'image originale}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{blur.jpg}
+\caption{La diminution de bruit avec un filtre de Gauss}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{svm.jpg}
+\caption{La ségmentation avec SVM}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{canny.jpg}
+\caption{La détéction des contours avec Canny}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{dilation.jpg}
+\caption{La fermeture des contours avec l'application de la dilatation}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{final.jpg}
+\caption{Le résultat final}
+\end{figure}
 
 
 
