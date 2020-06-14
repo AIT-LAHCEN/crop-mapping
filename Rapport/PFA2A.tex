@@ -55,11 +55,11 @@
 
     % Title
     \HRule \\[0.5cm]
-    { \huge \bfseries Rapport du projet de fin d'année: \\Crop Mapping\\[0.4cm] }
+    { \huge \bfseries Rapport du projet de fin de deuxième année: Crop Mapping\\[0.4cm] }
 	\HRule\\[4cm]
 
     % Author and supervisor
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.45\textwidth}
       \begin{flushleft} \large
         \emph{Réalisé par:}\\
             AIT LAHCEN \textsc{Ahmed}\\
@@ -68,10 +68,13 @@
 	        Génie logiciel, GL 1\\
       \end{flushleft}
     \end{minipage}
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.45\textwidth}
       \begin{flushright} \large
-       \emph{Sous la direction de:}\\
-	Mme. Sanaa. \textsc{EL FKIHI}\\
+       \emph{Jury:}\\
+	Pr. Sanaa \textsc{EL FKIHI}\\
+	Pr. Laila \textsc{KJIRI}\\
+	\emph{Encadrante:}\\
+	Pr. Sanaa \textsc{EL FKIHI}\\
 	\end{flushright}
     \end{minipage}
 
@@ -107,9 +110,9 @@ Crop Mapping, parcelles, images satellites ,segmentation, SVM, pixels, cluster, 
 
 \chapter*{Abstract}
 
-The subject of our end-of-year project was Crop Mapping, the objective was to segment plots contained in satellite images of an optical nature and detect the contours in order to identify the types of crops.
+The subject of our end-of-year project was Crop Mapping, the objective was to segment plots contained in satellite images of an optical nature and detect the edges in order to identify the types of crops.
 \par
-So our method consisted in using a segmentation algorithm (for example SVM) which makes it possible to extract the different classes contained in our satellite image by grouping together pixels with similar characteristics in the same cluster, then apply a filter (Canny filter) which makes it possible to detect the contours around the different classes to better distinguish them, and finally the last step was the labeling of the classes, which means that we have to assign a name to each cluster of pixels. This last step is not automated, and we rely on the different cultures that can be distinguished in the original image. The advantage of our method is that it is not limited by the number of labels that can be defined for each culture and can therefore theoretically be applied to any optical satellite image.
+So our method consisted in using a segmentation algorithm (for example SVM) which makes it possible to extract the different classes contained in our satellite image by grouping together pixels with similar characteristics in the same cluster, then apply a filter (Canny filter) which makes it possible to detect the edges around the different classes to better distinguish them, and finally the last step was the labeling of the classes, which means that we have to assign a name to each cluster of pixels. This last step is not automated, and we rely on the different cultures that can be distinguished in the original image. The advantage of our method is that it is not limited by the number of labels that can be defined for each culture and can therefore theoretically be applied to any optical satellite image.
 \par
 The general objective remains the possibility of having a precise and consistent result for any type of satellite image presenting cultures and of minimizing the error rate for each result by improving the parameters in each algorithm.
 \\
@@ -154,8 +157,6 @@ Parmi les technologies modernes qui facilitent la tâche pour les acteurs de la 
 Ce rapport est constitué trois chapitres. Le premier est consacré à la présentation du sujet et la définition des notions utilisées tout le long du projet. Le deuxième chapitre a pour but d'analyser le sujet en présentant l’approche du crop mapping et le test de quelques outils qui permettent la segmentation des images satellites.
 Le troisième chapitre est la réalisation et qui comporte les différents algorithmes de segmentation et de filtres utilisés qui vont être testés sur des images satellites prises comme exemples et une comparaison des différents outputs.
 
-
-
 \chapter{Présentation du sujet}
 
 
@@ -171,8 +172,8 @@ Un ensemble de parcelles peut être désigné comme un « parcellaire ».
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{parcelle2.jpg}
-\caption{Une parcelle}
+\includegraphics[scale=0.7]{seg.jpg}
+\caption{La fragmentation de parcelles}
 \end{figure}
 
 
@@ -183,7 +184,7 @@ Le terme de parcelle peut s'appliquer à différents domaine :
 \item En agriculture, elle désigne la division agricole (champ, pré, vignoble, verger, etc.) exploitée par la même personne ou le même groupe de personnes.
 
 
-\item En urbanisme, elles sont définies selon leurs propriétaires et leurs limites, tant en milieu rural qu'urbain. Ainsi elle peut être un terrain habité, ou encore une parcelle à l'abandon ou bien une zone de stationnements automobiles. 
+\item En urbanisme, elle est définit selon son propriétaire et ses limites, tant en milieu rural qu'urbain. Ainsi elle peut être un terrain habité, ou encore une parcelle à l'abandon ou bien une zone de stationnements automobiles. 
 
 \end{mylist}
 
@@ -193,29 +194,23 @@ Le terme de parcelle peut s'appliquer à différents domaine :
 
 La fragmentation spatiale des parcelles agricoles a un fort impact sur les flux d’eau dans les paysages cultivés, et pour surveiller les paysages à grandes échelles, il y a un fort besoin de délimitation automatique ou semi-automatique des parcelles agricoles. C’est pour cela que la contribution des images satellitaires à très haute résolution peut permettre la délimitation en utilisant de nombreuses méthodes de classification et des algorithmes qui traitent les caractéristiques de ces images.\cite{frag}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.7]{seg.jpg}
-\caption{La fragmentation d'une parcelle}
-\end{figure}
-
-Le résultat de ces études permet une bonne localisation des limites parcellaires et met en évidence l’intérêt d’un modèle global si une base de données d’images de limites parcellaires existe. 
+Le résultat des études des images satellites permet une bonne localisation des limites parcellaires et met en évidence l’intérêt d’un modèle global si une base de données d’images de limites parcellaires existe. 
 
 \subsection{L'agriculture au Maroc}
 
 L'agriculture est un secteur économique très important du Maroc. Il génère environ 14 \% du produit intérieur brut (PIB), mais avec des variations importantes (11 à 18 \%) selon les années en fonction des conditions climatiques. Ses performances conditionnent même celles de l’économie tout entière : le taux de croissance du pays est fortement corrélé à celui de la production agricole. L’agriculture demeure par ailleurs le premier pourvoyeur d’emplois du pays, loin devant les autres secteurs économiques, 40 \% de la population active vivant de ce secteur.\cite{imagesatt}
 
-L’agro-industrie marocaine dont de nombreuses composantes jouissent de certifications ISO peut, légitimement être fière de tout le progrès accompli. Son savoir-faire confirmé lui permet de se placer sur de nombreux marchés extérieurs, très exigeants en qualité, avec des produits très diversifiés relevant de 10 classes différentes.\cite{agr}
+la figure suivante montre le changement dans le secteur agro industriel au Maroc entre 2017 et 2018 :
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1.2]{agr.jpg}
-\caption{L'agro-industrie au maroc entre 2017 et 2018}
+\caption{L'agro-industrie au Maroc entre 2017 et 2018}
 \end{figure}
 
 
-Les principales productions végétales du pays sont constituées par les céréales (blé, orge), les agrumes (oranges, clémentines), les olives, les rosacées fruitières (amandes, pommes, abricots...), les betteraves à sucre, les légumineuses alimentaires, les cultures maraichères dont les pommes de terre et les tomates, fer de lance des exportations agricoles marocaines. L'élevage (ovin, caprin, bovin, camelin, avicole) constitue aussi une composante importante du secteur agricole en contribuant à hauteur de 30 \% à sa valeur ajoutée.
+Les principales productions végétales du pays sont constituées par les céréales (blé, orge), les agrumes (oranges, clémentines), les olives, les rosacées fruitières (amandes, pommes, abricots...), les betteraves à sucre, les légumineuses alimentaires, les cultures maraichères dont les pommes de terre et les tomates, fer de lance des exportations agricoles marocaines. L'élevage (ovin, caprin, bovin, camelin, avicole) constitue aussi une composante importante du secteur agricole en contribuant à hauteur de 30 \% à sa valeur ajoutée.\cite{agr}
 
 \section{Les images satellites}
 
@@ -224,7 +219,7 @@ Les principales productions végétales du pays sont constituées par les céré
 Un satellite artificiel est un objet fabriqué par l'être humain, envoyé dans l'espace à l'aide d'un lanceur et gravitant autour d'une planète ou d'un satellite naturel comme la Lune.  
 Le premier satellite artificiel Spoutnik 1 est lancé par l’Union des républiques socialistes soviétiques en 1957.
 \par
-Selon l'association UCS (Union of Concerned Scientists), 2.063 satellites opérationnels étaient en orbite autour de la Terre au 1er avril 2019. Le plus ancien encore en opération est un satellite amateur américain, Amsat-Oscar 7 (AO-7), lancé le 15 novembre 1974. La cadence des lancements s'est brusquement accélérée ces dernières années, avec 378 satellites lancés en 2017 et 375 satellites en 2018. Le 15 février 2017, l'Inde a ainsi battu un record avec 104 satellites en un seul tir.\cite{orbite}
+Selon l'association UCS (Union of Concerned Scientists), 2.063 satellites opérationnels étaient en orbite autour de la Terre au 1er avril 2019. Le plus ancien encore en opération est un satellite amateur américain, Amsat-Oscar 7 (AO-7), lancé le 15 novembre 1974. La cadence des lancements s'est brusquement accélérée ces dernières années, avec 378 satellites lancés en 2017 et 375 satellites en 2018.\cite{orbite}
 
 \begin{figure}[H]
 \centering
@@ -250,8 +245,7 @@ L'ESA (the European Space Agency) a developpé une nouvelle famille de mission p
 \subsection{Les satellites marocains}
 Mohammed VI est un système de 2 satellites de reconnaissance et d'observation de la Terre (A et B) du type Pléiades, conçu par Thales Alenia Space (conception de la charge) et Airbus (conception de la plate-forme satellitaire) pour le compte du Centre royal de télédétection spatiale (Maroc).
 \par
-Le satellite Mohammed VI A est lancé le 8 novembre 2017 par un lanceur Vega depuis le Centre spatial de Kourou satellite espion, il est utilisé pour surveiller le Front Polisario dans la « zone tampon ».
-Le lancement du deuxième satellite (Mohammed VI B) est effectué avec succès le 21 novembre 2018, à usage civil, est utilisé pour la cartographie et le cadastre, l’identification des zones sinistrées...
+Le satellite Mohammed VI A est lancé le 8 novembre 2017, alors que le satellite (Mohammed VI B) est lancé le 21 novembre 2018, le dernier à usage civil et utilisé pour la cartographie et le cadastre, l’identification des zones sinistrées...
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{satm6.jpg}
@@ -260,11 +254,9 @@ Le lancement du deuxième satellite (Mohammed VI B) est effectué avec succès l
 
 
 \subsection{La définition d'une image satellite}
-Une image satellite, ou image satellitaire, est une prise de vue transmise d'un satellite artificiel en orbite. Elles permettent d'obtenir différentes informations comme la surveillance des pays ennemis pour les militaires (fonction première de la création d'un satellite d'observation), prévisions météorologiques (par exemple les satellites Météosat), ou tout simplement pour les recherches sur l'Univers. Certains satellites sont capables d'une précision telle que cela peut devenir un problème, notamment en termes de vie privée ou de secret d'État. 
+Une image satellite, est une prise de vue transmise d'un satellite artificiel en orbite. Elles permettent d'obtenir différentes informations comme la surveillance des pays ennemis pour les militaires (fonction première de la création d'un satellite d'observation), prévisions météorologiques (par exemple les satellites Météosat), ou tout simplement pour les recherches sur l'Univers. Certains satellites sont capables d'une précision telle que cela peut devenir un problème, notamment en termes de vie privée ou de secret d'État. 
 
 \subsection{Les caractéristiques des images satellites}
-La principale différence entre une photographie et une image satellite est que la photographie est au format analogique et qu’elle est généralement imprimée sur papier avant d’être interprétée. L’image satellite est au format numérique et elle est généralement analysée et interprétée à l’aide d’un ordinateur.Le format numérique enregistre chaque bloc d’informations de manière discrète.
-
 
 \par
 \underline{Le pixel :}
@@ -280,13 +272,7 @@ Ces pixels représente la plus petite unité figurant sur une image. Réunis, il
 La résolution spatiale d’une image est la plus petite distance entre deux objets adjacents que le capteur puisse identifier.
 Plus les pixels seront nombreux dans l’image plus la résolution spatiale sera élevée.
 \par
-Selon les caractéristiques du capteur, l’altitude du satellite ,son orbite autour de la Terre, les images satellites seront composées de pixels couvrant une surface plus ou moins grande du sol. On classera ainsi les images enregistrées en : Basse , moyenne, haute résolution ou très haute résolution.
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.15]{resolution_image.jpg}
-\caption{Image satellite en très haute résolution}
-\end{figure}
+Selon les caractéristiques du capteur, l’altitude du satellite, son orbite autour de la Terre, les images satellites seront composées de pixels couvrant une surface plus ou moins grande du sol. On classera ainsi les images enregistrées en : Basse, moyenne, haute résolution ou très haute résolution.
 
 \par
 \underline{Valeur des pixels :}
@@ -296,22 +282,14 @@ Chaque pixel d’une image a une valeur. Cette valeur correspond à l’intensit
 
 La valeur du pixel varie de 0 (= noir) à 255 (= blanc). Donc, il y a 256 possibilités, ce qui correspond à 1 octet. Cela représente la quantité de rayonnement détectée par un capteur, allant du minimum au maximum. Le nombre de niveaux donne une indication quant à la précision de la mesure : plus il y a de niveaux (donc plus il y a de bits), plus détaillée sera la mesure et donc plus précise sera la mesure de la variation du rayonnement.
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.75]{pixel_values.png}
-\caption{Les valeurs des pixels}
-\end{figure}
-
 \par
 En observation de la Terre on peut exploiter :
 \begin{mylist}
 \item
-des ondes émises par le soleil puis réfléchies par la surface de la Terre et enregistrées par un capteur placé sur un satellite.
+des ondes émises par le soleil puis réfléchies par la surface de la Terre et enregistrées par un capteur placé sur un satellite, dans ce cas  on parle d'\textbf{images optiques}.
 \item
-des ondes émises par un émetteur artificiel placé sur le satellite puis réfléchies par la surface de la Terre et enregistrées par un capteur placé sur ce même satellite.
+des ondes émises par un émetteur artificiel placé sur le satellite puis réfléchies par la surface de la Terre et enregistrées par un capteur placé sur ce même satellite, dans ce cas, on parle d'\textbf{images radar} (voir la figure suivante).
 \end{mylist}
-
-Dans le premier cas on parle d'\textbf{images optiques} (télédétection passive), dans le second cas d'\textbf{images radar} (télédétection active).
 
 \begin{figure}[H]
 \centering
@@ -320,13 +298,13 @@ Dans le premier cas on parle d'\textbf{images optiques} (télédétection passiv
 \end{figure}
 
 \par
-La télédétection radar présente l’avantage de s’affranchir des contraintes de couverture nuageuse : les ondes émises par les satellites traversent les nuages pouvoir acquérir des images de jour comme de nuit. En revanche, leur exploitation pour l’observation de la Terre est moins intuitive quel les images optique, ainsi différents domaines spectraux sont exploité (longueurs d’onde du visible à l’infrarouge).\cite{ref4}
+La télédétection radar présente l’avantage de s’affranchir des contraintes de couverture nuageuse et permet d'acquérir des images de jour comme de nuit. En revanche, leur exploitation pour l’observation de la Terre est moins intuitive que les images optique, ainsi différents domaines spectraux sont exploité (longueurs d’onde du visible à l’infrarouge).\cite{ref4}
 
 
 
 \subsection{Les satellites au service de l'agriculture}
 
-Dans le domaine de l'agriculture, les satellites d'observation de la Terre sont utilisés pour une très grande variété d’applications et de services, comme la surveillance des cultures, le contrôle des surfaces et de l'occupation des sols, l'irrigation et la des gestion des cultures en engrais et produits phytosanitaires. Ils sont également utilisés pour suivre la production d'herbe tout au long de la saison culturale.  \cite{satt}
+Dans le domaine de l'agriculture, les satellites d'observation de la Terre sont utilisés pour une très grande variété d’applications et de services, comme la surveillance des cultures, le contrôle des surfaces et de l'occupation des sols, l'irrigation et la gestion des cultures en engrais et produits phytosanitaires.  \cite{satt}
 
 
 \begin{figure}[H]
@@ -345,7 +323,14 @@ Les données des satellites sont utiles aux agriculteurs pour :
 \item estimer la production agricole totale.
 \end{mylist}
 
+\section{Crop Mapping}
+\subsection{Définition}
+C’est une technique en agriculture qui utilise des données GPS pour analyser des variables telles que le rendement des cultures et la teneur en eau dans un champ donné. Il a été développé dans les années 1990 et utilise une combinaison de technologie GPS et de capteurs physiques, tels que des compteurs de vitesse , pour suivre les rendements des cultures, la vitesse de l'élévateur à grains et combiner la vitesse.
+\par
+Ces données produisent une carte des rendements qui peut être utilisée pour comparer la distribution des rendements dans le champ d'une année à l'autre. Cela permet aux agriculteurs de déterminer les zones du champ qui, par exemple, peuvent avoir besoin d'être plus fortement irriguées ou qui ne produisent aucune récolte. Il permet également aux agriculteurs de montrer les effets d'un changement dans les techniques de gestion des champs, d'élaborer des stratégies nutritionnelles pour leurs champs et d'enregistrer le rendement des cultures à utiliser pour obtenir des prêts ou des locataires.
 
+\section*{Conclusion}
+L'étude des images satellites permet d'appliquer le crop mapping en utilisant différentes méthodes ce qui donne une segmentation des parcelles avec ses différentes cultures.
 
 \chapter{Analyse du sujet}
 
@@ -353,15 +338,11 @@ Les données des satellites sont utiles aux agriculteurs pour :
 Ce chapitre abordera une analyse du sujet pour présenter le Crop Mapping et ses différentes méthodes en tant que technique qui permet la classification des parcelles en distinguant les différentes cultures, ainsi que des outils qu’on a pu tester pour faire la segmentation des images satellites. 
 
 \newpage
-\section{Crop Mapping}
-\subsection{Définition}
-C’est une technique en agriculture qui utilise des données GPS pour analyser des variables telles que le rendement des cultures et la teneur en eau dans un champ donné. Il a été développé dans les années 1990 et utilise une combinaison de technologie GPS et de capteurs physiques, tels que des compteurs de vitesse , pour suivre les rendements des cultures, la vitesse de l'élévateur à grains et combiner la vitesse.
-\par
-Ces données produisent une carte des rendements qui peut être utilisée pour comparer la distribution des rendements dans le champ d'une année à l'autre. Cela permet aux agriculteurs de déterminer les zones du champ qui, par exemple, peuvent avoir besoin d'être plus fortement irriguées ou qui ne produisent aucune récolte. Il permet également aux agriculteurs de montrer les effets d'un changement dans les techniques de gestion des champs, d'élaborer des stratégies nutritionnelles pour leurs champs et d'enregistrer le rendement des cultures à utiliser pour obtenir des prêts ou des locataires.
+\section{Les méthodes de Crop Mapping}
 
-\subsection{Les méthodes de Crop Mapping}
+Dnas cette section nous allons citer les principales méthodes de \textbf{Crop Mapping}
 
-\subsubsection{La télédétection (remote sensing from space)}
+\subsection{La télédétection (remote sensing from space)}
 
 La télédétection offre une méthode sûre et efficace de cueillette d'information dans le but de cartographier le type et de calculer la superficie des cultures.
 Les micro-ondes sont sensibles à l'alignement, la structure et la quantité d'eau présente dans les plantes et dans le sol, et peuvent fournir de l'information complémentaire aux données optiques. 
@@ -375,7 +356,7 @@ La télédétection utilisant des satellites s'est révélée être un outil pr�
 \caption{La télédétection par satellite}
 \end{figure}
 
-\subsubsection{Utilisation de l'indice NDVI et de cartes satellites}
+\subsection{Utilisation de l'indice NDVI et de cartes satellites}
 
 Il existe des modèles de surveillance directe sont utilisés pour analyser l'état des cultures sur la base des indices de télédétection directe fournis tels que l'indice de végétation par différence normalisée (NDVI). Habituellement, ces modèles sont faciles à adopter car ils nécessitent moins de données.
 
@@ -391,14 +372,14 @@ NDVI a un certain nombre d'applications, notamment la surveillance des cultures,
 
 
 
-\subsubsection{Deep Learning Classification}
+\subsection{Deep Learning Classification}
 Le Deep Learning (DL) est une technique de pointe puissante pour le traitement d'image, y compris les images de télédétection (remote sensing images). 
-Pour cibler la couverture des sols et la classification des types de cultures à partir d'images satellites multi-temporelles et multi-sources, une architecture DL à plusieurs niveaux solide doit être disposer. 
+Pour cibler la couverture des sols et la classification des types de cultures à partir d'images satellites multi-temporelles et multi-sources, une architecture DL à plusieurs niveaux solide doit être disposé. 
 Le pilier de cette architecture est un réseau neuronal qui est utilisé pour la segmentation des images optiques et la restauration des données manquantes en raison des nuages et des ombres. \cite{deeplearning}
 
 L’avantage de cette méthode est d’étudier des modèles de deep learning/machine learning pour la « crop classification » qui fournissent une segmentation basée sur les pixels d'une zone d'inspection pendant une période donnée. Pour obtenir de meilleurs résultats, il est préférable d’utiliser des modèles existant et de sélectionner ceux les mieux adaptés à la situation. Et pour mieux de flexibilité, il faut ajuster les modèles pré-formés par transfert learning à de nouvelles données comme de nouveaux domaines avec de nouvelles particularités, cultures...
 
-Un autre avantage est le potentiel d'améliorer considérablement la précision d'un modèle avec plus de données réelles recueillies au sol de la région étudié en utilisant des données spécifiques. Cependant, il est possible d'obtenir de meilleurs résultats avec l'ensemble de données de formation (training data set) plus spécifiques.
+Un autre avantage est le potentiel d'améliorer considérablement la précision d'un modèle avec plus de données réelles recueillies au sol de la région étudiée en utilisant des données spécifiques. Cependant, il est possible d'obtenir de meilleurs résultats avec l'ensemble de données de formation (training data set) plus spécifiques.
 
 \begin{figure}[H]
 \centering
@@ -406,9 +387,9 @@ Un autre avantage est le potentiel d'améliorer considérablement la précision 
 \caption{Le processus de Deep Learning}
 \end{figure}
 
-\subsection{Outils pour le Crop Mapping}
+\section{Outils pour le traitement des images satellite}
 
-On a essayé de faire une comparaison entre les outils les plus populaires dans le domaine du Crop Mapping :
+On a essayé de faire une comparaison entre les outils les plus populaires dans le domaine du traitement des images satellite :
 
 {\setlength{\tabulinesep}{3pt}
 \begin{tabu}{|c|c|c|c|c|c|c|}
@@ -436,24 +417,19 @@ Partage de carte & - & - & + & + & - & -\\
 \end{tabu}}\\
 
 
-\subsubsection{Au niveau des algorithmes :}
+\subsection{Au niveau des algorithmes :}
 
 
-ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV transformation/Gram-Schmidt Spectral Sharpening, PC Spectral Sharpening/...) entre autres transformations de bande (Veg. Index calculation/ Tasseled Cap Transformation/ ...). Le côté positif est le fait que vous pouvez facilement programmer ENVI avec IDL pour effectuer des travaux de traitement par lots (beaucoup de données) ou créer un programme IDL autonome pour une autre transformation non déjà incluse dans ENVI.
+ENVI incorpore de nombreux algorithmes de fusion d'images bien connus (HSV transformation/Gram-Schmidt Spectral Sharpening, PC Spectral Sharpening/...) entre autres transformations de bande (Veg. Index calculation/ Tasseled Cap Transformation/ ...). Le côté positif est le fait qu'on peut facilement programmer ENVI avec IDL pour effectuer des travaux de traitement par lots (beaucoup de données) ou créer un programme IDL autonome pour une autre transformation non déjà incluse dans ENVI.\cite{re12}
 
 QGIS est principalement conçu pour fonctionner avec des données vectorielles de type GIS (Geographic Information System), il prend en charge de nombreux formats d'images raster (svg, jpg, png, tif, ...) via les bibliothèques open source GDAL et GRASS.
 
 Enfin, il existe de nombreux codes spécifiques au format pour plusieurs langages (Python, C, Java, etc.) qui vous permettront de lire les données et d'appliquer les transformations nécessaires.
 
-\subsubsection{Test de l'outil QGIS :}
-QGIS utilise Orfeo ToolBox (OTB) qui est une bibliothèque d’algorithmes de traitement d’image. OTB est basée sur la bibliothèque de traitement d’images médicales et fournit des fonctionnalités dédiées aux traitements d’images de télédétection ou pour les images de haute résolution spatiale. Les algorithmes dédiés aux images de grandes résolutions optiques (Pleiades, SPOT, QuickBird, WorldView, Landsat, Ikonos), aux capteurs hyperspectraux sensors (Hyperion) ou aux radars à synthèse d’ouverture (TerraSarX, ERS, Palsar) sont disponibles.
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{orfeo.png}
-\caption{La bibliothèque Orfeo ToolBox (OTB)}
-\end{figure}
+\subsection{Test de l'outil QGIS :}
+QGIS utilise Orfeo ToolBox (OTB) qui est une bibliothèque d’algorithmes de traitement d’image. OTB est basée sur la bibliothèque de traitement d’images médicales et fournit des fonctionnalités dédiées aux traitements d’images de télédétection ou pour les images de haute résolution spatiale. Les algorithmes dédiés aux images de grandes résolutions optiques (Pleiades, SPOT, QuickBird, WorldView, Landsat, Ikonos), aux capteurs hyperspectraux sensors (Hyperion) ou aux radars à synthèse d’ouverture (TerraSarX, ERS, Palsar) sont disponibles.\cite{ref12}
 
-Le module "otb" permet l'utilisation de la bibliothèque de calcul numérique haute performance "TensorFlow" . L'API C ++ de TensorFlow est utilisée pour exécuter des sessions tensorflow à l' intérieur de filtres conformes au mécanisme de streaming d'ITK et OTB, ce qui signifie qu'il n'y a pas de limitation sur la taille des images à traiter.
+Le module "otb" permet l'utilisation de la bibliothèque de calcul numérique haute performance "TensorFlow" . L'API C ++ de TensorFlow est utilisée pour exécuter des sessions Tensorflow à l' intérieur de filtres conformes au mécanisme de streaming d'ITK et OTB, ce qui signifie qu'il n'y a pas de limitation sur la taille des images à traiter.\cite{ref13}
 
 
 Voici un exemple de segmentation qu'offre QGIS :
@@ -464,12 +440,7 @@ Voici un exemple de segmentation qu'offre QGIS :
 \caption{Segmentation avec QGIS}
 \end{figure}
 
-\subsubsection{Test de l'outil Groundwork :}
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{Groundwork.png}
-\caption{Groundwork logo}
-\end{figure}
+\subsection{Test de l'outil Groundwork :}
 
 On a testé l'outil GroundWork de la compagnie azavea qui est en charge à la réalisation des modèles personalisé de machine learning qui analyse les images de drones et de satellites.
 Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.
@@ -489,6 +460,9 @@ A la fin, on exporte notre image avec les étiquettes, mais aussi des données q
 \caption{Résultat d'une fragmentation d'un image avec des étiquettes}
 \end{figure}
 
+\section*{Conclusion}
+Avoir ses outils permet de faire une segmentation des cultures sur des images satellites mais ceci peut manquer de précision et aussi l'absence de configurer les paramètres à son gré pour pouvoir s'adapter à tout type d'image peut constituer une contrainte, ce qui nous pousse à utiliser des algorithmes et des librairies afin d'avoir de meilleurs résultats.
+
 %Deuxième partie ____________________________________________________%
 
 \chapter{Réalisation}
@@ -499,7 +473,7 @@ Le chapitre réalisation comporte les différents algorithmes qu'on a pu utilise
 
 \newpage
 
-\section{Ségmentation et application des filtres}
+\section{Expérimentations et résultats}
 
 \subsection{Algorithmes de segmentation}
 
@@ -516,7 +490,7 @@ Un modèle SVM est une représentation des données sous forme de points dans l'
 \end{figure}
 
 \par
-Les SVM ont été appliqués à de très nombreux domaines (bio-informatique, recherche d'information, vision par ordinateur, finance…). Selon les données, la performance des machines à vecteurs de support est de même ordre, ou même supérieure, à celle d'un réseau de neurones ou d'un modèle de mélanges gaussiens.
+Les SVM ont été appliquées à de très nombreux domaines (bio-informatique, recherche d'information, vision par ordinateur, finance…). Selon les données, la performance des machines à vecteurs de support est de même ordre, ou même supérieure, à celle d'un réseau de neurones ou d'un modèle de mélanges gaussiens.
 
 \textbf{SVM dans python :} \\
 Dans Scikit-learn, les SVM sont implémentées dans le module "sklearn.svm".
@@ -546,15 +520,15 @@ Voici un exemple d'une ségmentation en définissant trois classes sur l'image o
 \subsubsection{K-means algorithm}
 
 
-\cite{k-means definition}K-means est un algorithme non supervisé de clustering non hiérarchique. Il permet de regrouper en K clusters distincts les observations du data set. Ainsi les données similaires se retrouveront  dans un même cluster. Par ailleurs, une observation ne peut se retrouver que dans un cluster à la fois (exclusivité d’appartenance). Une même observation, ne pourra donc, appartenir à deux clusters différents.
+K-means \cite{k-means definition} est un algorithme non supervisé de clustering non hiérarchique. Il permet de regrouper en K clusters distincts les observations du data set. Ainsi les données similaires se retrouveront  dans un même cluster. Par ailleurs, une observation ne peut se retrouver que dans un cluster à la fois (exclusivité d’appartenance). 
 
 
 
-Pour pouvoir regrouper un jeu de données en K cluster distincts, l’algorithme K-Means a besoin d’un moyen de comparer le degré de similarité entre les différentes observations. Ainsi, deux données qui se ressemblent, auront une distance de dissimilarité  réduite, alors que deux objets différents auront une distance de séparation plus grande, cette distance sont calculé par des formules mathématiques et statistiques comme par exemple la distance euclidienne.
+Pour pouvoir regrouper un jeu de données en K clusters distincts, l’algorithme K-Means a besoin d’un moyen de comparer le degré de similarité entre les différentes observations. Ainsi, deux données qui se ressemblent, auront une distance de dissimilarité  réduite, alors que deux objets différents auront une distance de séparation plus grande. ces distances sont calculés par des formules mathématiques et statistiques comme par exemple la distance euclidienne.
 
-La determination du nombre de cluster K peut conduire à un partitionnement trop fragmenté des donnée si on a un jeu de données très grand. Par contre, un nombre de clusters trop petit, conduira à avoir des cluster trop généralistes contenant beaucoup de données.
+La determination du nombre de clusters K peut conduire à un partitionnement trop fragmenté des données si on a un jeu de données très grand. Par contre, un nombre de clusters trop petit, conduira à avoir des cluster trop généralistes contenant beaucoup de données.
 
-La méthode la plus usuelle pour choisir le nombre de clusters est de lancer K-Means avec différentes valeurs de K et de calculer la variance des différents clusters.  La variance est la somme des distances entre chaque centre de cluster (centroid) et les différentes observations inclues dans le même cluster. 
+La méthode la plus usuelle pour choisir le nombre de clusters est de lancer K-Means avec différentes valeurs de K et de calculer la variance des différents clusters.  La variance est la somme des distances entre chaque centre de cluster (centroid) et les différentes observations incluses dans le même cluster. 
 \newline
 \textbf{ La variance des clusters se calcule comme suit :\\}
 \makebox[\textwidth]{
@@ -571,38 +545,8 @@ Avec :
 \end{mylist}
 
 
-\textbf{\underline{Fonctionnement de l’algorithme K-Means}}\cite{k-means}
-
-\begin{enumerate}
-    %1-
-    \item Donner en entrée K le nombre de cluster à former et Le Training Set (matrice de données)
-        \begin{figure}[ht]
-        \centering
-        \includegraphics[scale=0.2]{algo1.png}
-        \end{figure}
-    %2-
-    \item Attribuez chaque point de données au cluster le plus proche en calculant sa distance par rapport à chaque centroïde (centre du cluster)
-        \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.2]{algo2.png}
-        \end{figure}
-    %3-
-    \item Déterminez le nouveau centre du cluster en calculant la moyenne des points attribués
-        \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.2]{algo3.png}
-        \end{figure}
-    %4-
-    \item Répéter les étapes 2 et 3 jusqu'à ce qu'aucune des affectations de cluster ne change
-        \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.2]{algo4.png}
-        \end{figure}
-\end{enumerate}
-
-
 \par
-Pour son application on a utilisé la même image précédente et on a définie trois cluster pour la ségmentation voice le résultat : 
+Pour son application on a utilisé la même image précédente et on a défini trois cluster pour la ségmentation, la figure suivante représente le résultat de la ségmentation de l'image avec K-Means : 
 
 \begin{figure}[H]
 \centering
@@ -611,8 +555,8 @@ Pour son application on a utilisé la même image précédente et on a définie 
 \end{figure}
 
 \subsubsection{Multi-Otsu threshold}
-\cite{otsu}Multi-Otsu Threasholding est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
-Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes (le nombre de classes par défaut est 3) en passant par toutes les valeurs de seuil possibles (de 0 à 255), le but est donc de trouver la valeur du seuil optimale de l'image d'entrée en calculant et en évaluant la variance inter-classe (ou variance intra-classe).
+Multi-Otsu Threasholding \cite{otsu} est un algorithme de seuillage utilisé pour séparer les pixels d'une image d'entrée en plusieurs classes différentes, chacune obtenue en fonction de l'intensité des niveaux de gris dans l'image.
+Multi-Otsu calcule plusieurs seuils, déterminés par le nombre de classes. Le but est donc de trouver la valeur du seuil optimale de l'image d'entrée en calculant et en évaluant la variance inter-classe (ou variance intra-classe).
 
 Les formules pour calculer les variances entre les classe pour la méthodes Otsu :
 
@@ -646,23 +590,22 @@ Avec $\mu_i$ la moyenne des classes
     \item Le seuil désiré correspond au $\sigma_{b}^{2}(t)$ maximum.
 \end{enumerate}
 
-
+Un exemple du résultat de la segmentation avec l'algorithme de Multi-Otsu est donnée dans la figure suivante:
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1.2]{osupng.png}
-\caption{Segmentation avec multi-Otsu threshold}
+\caption{Segmentation avec Multi-Otsu Threshold}
 \end{figure}
 
-\subsection{Comparaison des méthodes de détection des contours}
+\subsection{Comparaison de quelques méthodes de détection des contours}
 Le contour c’est la zone où il existe des différences extrêmes dans les intensités du pixel indique généralement un bord d'un objet.
-Nous mettrons en œuvre certaines des méthodes les plus utilisées et utiliserons également les méthodes d'Open CV et de PIL.\cite{comparaison}
+Nous mettrons en œuvre certaines des méthodes les plus utilisées et utiliserons également les méthodes d'Open CV et de PIL.
 \noindent Nous comparerons les méthodes suivantes:
 \begin{mylist}
 \item Détecteur de contour Sobel
 \item Détecteur de contour Prewitt
 \item Détecteur de contour Canny
-\item Détecteur de contour Gabor
 \end{mylist}
 
 \subsubsection{Opérateur Sobel}
@@ -701,7 +644,7 @@ Le résultat est le suivant :
 \end{figure}
 
 \subsubsection{Opérateur Canny}
-Le détecteur de contour Canny est probablement la méthode la plus utilisée et la plus efficace, c'est une méthode de détection de contour beaucoup plus complexe que celles décrites ci-dessus.
+Le détecteur de contour Canny est probablement la méthode la plus utilisée et la plus efficace.
 \noindent Les étapes de cette méthode sont les suivantes :
 \begin{enumerate}
     \item Lissage de l'image avec un filtre gaussien pour réduire le bruit.
@@ -718,55 +661,6 @@ L'hystérésis est un moyen de relier les lignes brisées produites à l'étape 
 \centering
 \includegraphics[scale=1.2]{canny_filter.png}
 \caption{Résultat du filtre de canny}
-\end{figure}
-
-
-
-\subsubsection{Filtre de Gabor}
-
-Le filtre de Gabor, est un filtre linéaire utilisé dans une myriade d'applications de traitement d'image pour la détection des bords, l'analyse de texture, l'extraction de caractéristiques, etc. Les caractéristiques de certaines cellules du cortex visuel de certains mammifères peuvent être approximées par ces filtres. Il a été démontré que ces filtres possèdent des propriétés de localisation optimales dans le domaine spatial et fréquentiel et sont donc bien adaptés aux problèmes de segmentation de texture. Les filtres de Gabor sont des classes spéciales de filtres passe-bande, c'est-à-dire qu'ils autorisent une certaine «bande» de fréquences et rejettent les autres. Un filtre de Gabor peut être considéré comme un signal sinusoïdal de fréquence et d'orientation particulières, modulé par une onde gaussienne.
-
-Gabor Filter travaille sur une banque de 16 filtres à une orientation de 11.250 (c'est-à-dire si le premier filtre est à 00, alors le second sera à 11.250, le troisième sera à 22.50, et ainsi de suite.). La figure suivante montre tous les filtres de 16 filtres :
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.9]{gabor_16_filtres.jpg}
-\caption{Banque de 16 filtres de Gabor}
-\end{figure}
-
-Pour mieux comprendre ce que chaque filtre détecte dans l'image d'entrée, considérons un simple cercle blanc sur fond noir. Lorsque cette image passe à travers chaque filtre de la banque de filtres, le bord du cercle qui est détecté est le bord orienté selon un angle auquel le filtre de Gabor est orienté. La figure suivante le montre clairement :
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.9]{gabor_method.jpg}
-\caption{Exemples de détéction de contours pour le filtre Gabor}
-\end{figure}
-
-Voici la structure de la fonction qu’on a utilisée pour créer un noyau Gabor: 
-
-
-\makebox[\textwidth]{
-    \textbf{cv2.getGaborKernel(ksize, $\sigma$, $\theta$, $\lambda$, $\gamma$, $\psi$, ktype)}
-    }
-Avec :
-\begin{mylist}
-\item ksize : la taille du noyau Gabor. 
-\item $\sigma$ : l'écart type de la fonction gaussienne utilisée dans le filtre de Gabor.
-\item $\theta$ : l'orientation de la normale aux bandes parallèles de la fonction de Gabor.
-\item $\lambda$ : la longueur d'onde du facteur sinusoïdal dans l'équation ci-dessus.
-\item $\gamma$ : le rapport d'aspect spatial.
-\item $\psi$ : le décalage de phase.
-\item ktype : le type et la plage de valeurs que chaque pixel du noyau Gabor peut contenir.
-\end{mylist}
-
-Voici notre résultat en appliquant le filtre de Gabor : 
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=1.2]{gabor_result.png}
-\caption{Filtre de Gabor}
 \end{figure}
 
 \section{Résultat final}
@@ -809,6 +703,9 @@ On a utilisé une image satellite de taille 478*478, on a commencé par applique
 \caption{Le résultat final}
 \end{figure}
 
+\section*{Conclusion}
+Les différents algorithmes de segmentation donnent des résultats différents les uns des autres, donc chaque méthode de segmentation peut avoir des résultats précis par rapport à chaque type d'image.
+Ainsi choisir le bon algorithme et les images adéquates peut s'avérer très utile pour le Crop Mapping.
 
 
 \chapter*{Conclusion}
@@ -854,12 +751,12 @@ Sentinel missions\\
 \bibitem{ref3}
 Les informations contenues dans une image, analogique ou digital ?\\
 textit{ESA (European Space Agency) eduspace, 2015}\\
-\url{https://www.esa.int/SPECIALS/Eduspace_FR/SEM11YR7NWF_0.html?fbclid=IwAR1DA8wJKDujA2pHMdAoyIz54p5T6kFdVWR6EkySLQCe5O98j66p2ob9LSQ}
+\url{https://bit.ly/2Yw8Yti}
 
 \bibitem{ref4}
 Comprendre une image satellitaire\\
 \textit{GéoBretagne Publication de 2016}\\
-\url{https://cms.geobretagne.fr/content/comprendre-une-image-satellitaire?fbclid=IwAR1kR644UcZJa0bt_ZamhZt5UldAfCv-Na9Cto6f2yS-5eiIkAgjWaclgc0}
+\url{https://bit.ly/30J3qhA}
 
 \bibitem{satt} 
 Les satellites au service de l'agriculture\\
@@ -869,7 +766,7 @@ Les satellites au service de l'agriculture\\
 \bibitem{cropmapp}
 Generating Crop Classification Maps Using AI\\
 \textit{David Markowitz, 6 May 2019, Planet Watchers}\\
-\url{https://www.planetwatchers.com/generating-crop-classification-maps-using-ai}
+\url{https://www.planetwatchers.com/generating-crop-\\classification-maps-using-ai}
 
 \bibitem{modis}
 MODIS Vegetation Index Products\\
@@ -879,7 +776,21 @@ MODIS Vegetation Index Products\\
 \bibitem{deeplearning}
 Deep Learning Classification\\
 \textit{ IEEE Geoscience and Remote Sensing Letters ( Volume: 14 , Issue: 5 , May 2017 }\\
-\url{https://ieeexplore.ieee.org/abstract/document/7891032?fbclid=IwAR3TiBL273ykf0RpPCORrCK0hayB4ePCgp21eh76O0cBOBMBszCdKtk2E1g}
+\url{https://bit.ly/3d4773U}
+
+\bibitem{re12}
+Are QGIS and ENVI most useful software for GIS and Remote sensing data analysis?\\
+\textit{Md Tawhid Hossain, University of Wuerzburg,17th Nov, 2017}\\
+\url{https://bit.ly/2XXKwSq}
+
+\bibitem{ref12}
+\textit{Documentation de QGIS2.8}\\
+\url{https://docs.qgis.org/2.8/fr/docs/user_manual/processing_algs/otb/index.html}
+
+\bibitem{ref13}
+A remote module for Deep learning\\
+\textit{Posted on August 24, 2018 by Rémi Cresson}\\
+\url{https://www.orfeo-toolbox.org/tag/tensorflow/}
 
 \bibitem{k-means definition}
 Tout ce que vous voulez savoir sur l’algorithme K-Means\\
@@ -890,7 +801,7 @@ Tout ce que vous voulez savoir sur l’algorithme K-Means\\
 \bibitem{k-means}
 K-means Clustering Python Example\\
 \textit{Cory Maklin, Medium, Dec 28/2018}\\
-\url{https://towardsdatascience.com/machine-learning-algorithms-part-9-k-means-example-in-python-f2ad05ed5203}
+\url{https://towardsdatascience.com/machine-learning-algorithms\\-part-9-k-means-example-in-python-f2ad05ed5203}
 
 \bibitem{otsu}
 Méthode d'Otsu\\
@@ -900,7 +811,7 @@ Méthode d'Otsu\\
 \bibitem{comparaison}
 Comparing Edge Detection Methods\\
 \textit{Nike Tsankashvili, 20 Jan 2018, Medium}\\
-\url{https://medium.com/@nikatsanka/comparing-edge-detection-methods-638a2919476e}
+\url{https://bit.ly/2MX5wlY}
 
 
 
