@@ -445,7 +445,7 @@ Voici un exemple de segmentation qu'offre QGIS :
 On a testé l'outil GroundWork de la compagnie azavea qui est en charge à la réalisation des modèles personalisé de machine learning qui analyse les images de drones et de satellites.
 Cette outil qui est gratuit permet la création d'une "training data set" d'image géospatiale en implémentant une machine learning.
 \par
-La création du projet est comme ce qui suit : on determine d'abord le type du projet, c'est à dire soit détection d'objet, segmentation sémantique ou classification d'image, ensuite, on entre l'url de l'image qu'on veut ségmenter, puis on spécifie ce qu'on doit ségmenter (surface verte, l'eau, le sol ...) ainsi avec son processus de machine learning il nous ségmente notre image avec les classes que nous avons définis.
+La création du projet est comme ce qui suit : on determine d'abord le type du projet, c'est à dire soit détection d'objet, segmentation sémantique ou classification d'image, ensuite, on entre l'url de l'image qu'on veut segmenter, puis on spécifie ce qu'on doit segmenter (surface verte, l'eau, le sol ...) ainsi avec son processus de machine learning il nous segmente notre image avec les classes que nous avons définis.
 A la fin, on exporte notre image avec les étiquettes, mais aussi des données qu'on peut traiter avec pySTAC qui est une bibliothèque de python crée par la même compagnie.
 
 \begin{figure}[H]
@@ -475,6 +475,8 @@ Le chapitre réalisation comporte les différents algorithmes qu'on a pu utilise
 
 \section{Expérimentations et résultats}
 
+Dans cette section nous allons présenter quelques algorithmes de segmentation, ainsi les principaux filtres utilisés pour la détection des contours.
+
 \subsection{Algorithmes de segmentation}
 
 \subsubsection{Support Vector Machine (SVM)}
@@ -498,9 +500,9 @@ Scikit-Learn contient la bibliothèque svm, qui contient des classes intégrées
 \par
 Nous avons effectuer une tâche de classification supervisé sur image sattelite d'une culture entre la région d'Assilah et Larache, nous utiliserons la classe de classificateur de vecteur de support, qui se nomme 'SVC' dans la bibliothèque svm de Scikit-Learn.
 \par
-Cette classe prend plusieurs paramètres qui sont en ralations avec des formules mathématiques correspondantes à SVM, et qui peuvent affecter le degré de netteté de la ségmentation.
+Cette classe prend plusieurs paramètres qui sont en ralations avec des formules mathématiques correspondantes à SVM, et qui peuvent affecter le degré de netteté de la segmentation.
 \par
-Voici un exemple d'une ségmentation en définissant trois classes sur l'image originale : 
+Voici un exemple d'une segmentation en définissant trois classes sur l'image originale : 
 
 \begin{figure}[H]
 \centering
@@ -546,7 +548,7 @@ Avec :
 
 
 \par
-Pour son application on a utilisé la même image précédente et on a défini trois cluster pour la ségmentation, la figure suivante représente le résultat de la ségmentation de l'image avec K-Means : 
+Pour son application on a utilisé la même image précédente et on a défini trois cluster pour la segmentation, la figure suivante représente le résultat de la segmentation de l'image avec K-Means : 
 
 \begin{figure}[H]
 \centering
@@ -663,13 +665,59 @@ L'hystérésis est un moyen de relier les lignes brisées produites à l'étape 
 \caption{Résultat du filtre de canny}
 \end{figure}
 
-\section{Résultat final}
-
-On a utilisé une image satellite de taille 478*478, on a commencé par appliquer un simple filtre gaussien pour diminuer le bruit afin d'appliquer une ségmentation bien précise on a donc choisi SVM afin de définir nos propres classes et obtenir un résultat plus clair, par la suite on a essayé d'appliquer un filtre de Canny à l'image originale pour détécter les contours des parcelles, ensuite on a fait une dilatation à ces contours pour qu'ils soit fermés et mieux cohérant, voici le processus pour obtenir le résultat final: 
+\section{Comparaison des résultats}
+La segmentation par SVM et K-Means donne des résultat différent par rapport à chaque image satellite contanant des parcelles, si on prend comme exemple l'image ci-dessous : 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=1]{imgor.jpg}
+\includegraphics[scale=0.3]{original_assilah.jpg}
+\end{figure}
+
+On obtient le résultat : 
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.47]{kmeans_svm.jpg}
+\end{figure}
+
+On constate que K-means n'indentifie pas correctement les différentes classes, au contraire, par SVM, on peut modifier les paramètres pour obtenir un résultat plus au moins acceptable.
+
+Les résultats semblent suggérer que la classification non supervisée (K-Means) est plus précise celle supervisée (SVM). Cependant, la classification supervisée surpasse généralement la classification non supervisée. Il est important de noter que dans l'exemple analysé, la précision pourrait être considérablement améliorée en ajustant les paramètres du classificateur SVM. Une amélioration supplémentaire pourrait être obtenue en élargissant et en affinant la vérité du terrain, car les classes rouges et vertes contiennent en fait des pixels de différentes classes. Enfin, on peut s'attendre à ce que l'utilisation de fonctionnalités plus sophistiquées telles que des ratios ou des indices calculés à partir des niveaux d'intensité (par exemple NDVI ) améliore les performances.
+\\
+
+Mais pour certaines images, on peut avoir un bon resultat quelque soit l'algorithme de segmentation utilisé (SVM / K-Means / Multi-Otsu Thresholding), et ceci le montre la figure suivante :
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{montain.jpg}
+\end{figure}
+
+Par rapport à la détection des contours, on a utilisé le filtre de canny car il donne de meilleurs résultats, sauf que pour certaines images : 
+
+\begin{mylist}
+\item Les contours pouvait ne pas se fermer et donc ne pas délimiter les bonne régions, par exemple : 
+    \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.47]{contour_ouvert.jpg}
+    \end{figure}
+\item Les contours pouvait remplir l'image ce qui gênerait la distinction des différentes classes obtenue par segmentation après avoir superposé les deux résultats. Voici un exemple de mauvaise dection de countour : 
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.47]{contour_grand.jpg}
+    \end{figure}
+
+
+\end{mylist}
+
+\section{Résultat final}
+
+On a utilisé une image satellite de taille 478*478, on a commencé par appliquer un simple filtre gaussien pour diminuer le bruit afin d'appliquer une segmentation bien précise on a donc choisi SVM afin de définir nos propres classes et obtenir un résultat plus clair, par la suite on a essayé d'appliquer un filtre de Canny à l'image originale pour détécter les contours des parcelles, ensuite on a fait une dilatation à ces contours pour qu'ils soit fermés et mieux cohérant, voici le processus pour obtenir le résultat final: 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{imgor.jpg}
 \caption{L'image originale}
 \end{figure}
 
@@ -682,7 +730,7 @@ On a utilisé une image satellite de taille 478*478, on a commencé par applique
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1]{svm.jpg}
-\caption{La ségmentation avec SVM}
+\caption{La segmentation avec SVM}
 \end{figure}
 
 \begin{figure}[H]
